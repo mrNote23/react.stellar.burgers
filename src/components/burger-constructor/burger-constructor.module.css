@@ -1,0 +1,26 @@
+.section {
+	width: 600px;
+	margin-left: 40px;
+	/*border: 1px solid #FFF;*/
+}
+
+.list {
+	margin-top: 100px;
+}
+
+.list .item {
+	display: flex;
+	align-items: center;
+	margin-bottom: 16px;
+}
+
+.list .item .drag {
+	width: 32px;
+}
+
+.footer {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	margin: 40px 16px 40px 0;
+}
