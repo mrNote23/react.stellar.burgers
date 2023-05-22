@@ -3,6 +3,7 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient.module.css";
+import PropTypes from "prop-types";
 
 const Ingredient = (props) => {
   return (
@@ -18,6 +19,12 @@ const Ingredient = (props) => {
       <p className="text text_type_main-small text-center">{props.name}</p>
     </div>
   );
+};
+
+Ingredient.propTypes = {
+  image: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
 };
 
 export default Ingredient;
