@@ -21,7 +21,6 @@ const BurgerIngredients = () => {
     // eslint-disable-next-line
     [data]
   );
-  // eslint-disable-next-line
   const mains = useMemo(
     () => data.filter((elm) => elm.type === MAIN),
     // eslint-disable-next-line
