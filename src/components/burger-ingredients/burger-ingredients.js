@@ -1,77 +1,69 @@
-import { Fragment, useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { data } from "../../utils/data";
 import Ingredient from "./ingredient/ingredient";
 
-const ingredientsTypes = {
-  bun: "Булки",
-  sauce: "Соусы",
-  main: "Начинки",
-};
+const BUN = "bun";
+const MAIN = "main";
+const SAUCE = "sauce";
 
 const BurgerIngredients = () => {
-  const [currentTab, setCurrentTab] = useState("bun");
-  const [ingredients, setIngredients] = useState([]);
+  const [currentTab, setCurrentTab] = useState(BUN);
 
-  useEffect(() => {
-    const tmp = [];
-    data.forEach((elm) => {
-      tmp[elm.type] = tmp[elm.type] ? tmp[elm.type] : [];
-      tmp[elm.type].push(elm);
-    });
-    const tmp2 = [];
-    Object.entries(tmp).forEach(([key, value]) => {
-      tmp2.push({
-        type: ingredientsTypes[key],
-        items: value,
-      });
-    });
-    setIngredients(tmp2);
-  }, []);
+  const buns = useMemo(() => data.filter((elm) => elm.type === BUN), [data]);
+  const sauces = useMemo(
+    () => data.filter((elm) => elm.type === SAUCE),
+    [data]
+  );
+  const mains = useMemo(() => data.filter((elm) => elm.type === MAIN), [data]);
 
   return (
     <section className={styles.section}>
       <p className="text text_type_main-large mt-10 pb-5">Соберите бургер</p>
       <div className={styles.tabs}>
         <Tab
-          value="bun"
-          active={currentTab === "bun"}
+          value={BUN}
+          active={currentTab === BUN}
           onClick={() => {
-            setCurrentTab("bun");
+            setCurrentTab(BUN);
           }}
         >
           Булки
         </Tab>
         <Tab
-          value="sauce"
-          active={currentTab === "sauce"}
+          value={SAUCE}
+          active={currentTab === SAUCE}
           onClick={() => {
-            setCurrentTab("sauce");
+            setCurrentTab(SAUCE);
           }}
         >
           Соусы
         </Tab>
         <Tab
-          value="main"
-          active={currentTab === "main"}
+          value={MAIN}
+          active={currentTab === MAIN}
           onClick={() => {
-            setCurrentTab("main");
+            setCurrentTab(MAIN);
           }}
         >
           Начинки
         </Tab>
       </div>
       <div className={styles.ingredients}>
-        {ingredients.map((type, index) => (
-          <Fragment key={index}>
-            <p className="text text_type_main-medium mt-10 w-100">
-              {type.type}
-            </p>
-            {type.items.map((item) => (
-              <Ingredient key={item._id} {...item} />
-            ))}
-          </Fragment>
+        <p className="text text_type_main-medium mt-10 w-100">Булки</p>
+        {buns.map((item) => (
+          <Ingredient key={item._id} {...item} />
+        ))}
+
+        <p className="text text_type_main-medium mt-10 w-100">Соусы</p>
+        {sauces.map((item) => (
+          <Ingredient key={item._id} {...item} />
+        ))}
+
+        <p className="text text_type_main-medium mt-10 w-100">Начинки</p>
+        {mains.map((item) => (
+          <Ingredient key={item._id} {...item} />
         ))}
       </div>
     </section>
