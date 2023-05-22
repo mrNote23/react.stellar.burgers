@@ -5,12 +5,11 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
+import { burger } from "../../utils/burger";
 
 const BurgerConstructor = () => {
   const scrolledWindow = useRef();
-
-  const mas = new Array(50).fill(null);
 
   useEffect(() => {
     onResize();
@@ -28,6 +27,15 @@ const BurgerConstructor = () => {
     }px`;
   };
 
+  const burgerPrice = useMemo(
+    () =>
+      burger.filling.reduce(
+        (acc, item) => acc + item.price,
+        burger.bun.price || 0
+      ),
+    [burger]
+  );
+
   return (
     <section className={styles.section}>
       <div className={styles.list}>
@@ -36,21 +44,21 @@ const BurgerConstructor = () => {
           <ConstructorElement
             type="top"
             isLocked={true}
-            text="Краторная булка N-200i (верх)"
-            price={200}
-            thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
+            text={`${burger.bun.name} (верх)`}
+            price={burger.bun.price}
+            thumbnail={burger.bun.image}
           />
         </div>
         <div className={styles.scrolled} ref={scrolledWindow}>
-          {mas.map((item, index) => (
+          {burger.filling.map((item, index) => (
             <div className={styles.item} key={index}>
               <div className={styles.drag}>
                 <DragIcon type="primary" />
               </div>
               <ConstructorElement
-                text="Плоды Фалленианского дерева"
-                price={874}
-                thumbnail="https://code.s3.yandex.net/react/code/sp_1.png"
+                text={item.name}
+                price={item.price}
+                thumbnail={item.image}
               />
             </div>
           ))}
@@ -61,14 +69,14 @@ const BurgerConstructor = () => {
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text="Краторная булка N-200i (низ)"
-            price={200}
-            thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
+            text={`${burger.bun.name} (низ)`}
+            price={burger.bun.price}
+            thumbnail={burger.bun.image}
           />
         </div>
       </div>
       <div className={styles.footer}>
-        <span className="text text_type_digits-medium mr-2">610</span>
+        <span className="text text_type_digits-medium mr-2">{burgerPrice}</span>
         <CurrencyIcon type="primary" />
         <Button
           htmlType="button"
