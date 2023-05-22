@@ -14,27 +14,35 @@ const AppHeader = () => {
         <ul className={`${styles.menu} pt-4 pb-4`}>
           <div className="d-flex w-100">
             <li className={`${styles.link} pl-5 pr-5 pt-4 pb-4`}>
-              <BurgerIcon type="primary" />
-              <span className="text text_type_main-default text_color_primary pl-2">
-                Конструктор
-              </span>
+              <a href="#">
+                <BurgerIcon type="primary" />
+                <span className="text text_type_main-default text_color_primary pl-2">
+                  Конструктор
+                </span>
+              </a>
             </li>
             <li className={`${styles.link} pl-5 pr-5 pt-4 pb-4`}>
-              <ListIcon type="secondary" />
-              <span className="text text_type_main-default text_color_inactive pl-2">
-                Лента заказов
-              </span>
+              <a href="#">
+                <ListIcon type="secondary" />
+                <span className="text text_type_main-default text_color_inactive pl-2">
+                  Лента заказов
+                </span>
+              </a>
             </li>
           </div>
           <li className={styles.logo}>
-            <Logo />
+            <a href="#">
+              <Logo />
+            </a>
           </li>
           <div className="d-flex flex-end w-100">
             <li className={`${styles.link} pl-5 pr-5 pt-4 pb-4`}>
-              <ProfileIcon type="secondary" />
-              <span className="text text_type_main-default text_color_inactive pl-2">
-                Личный кабинет
-              </span>
+              <a href="#">
+                <ProfileIcon type="secondary" />
+                <span className="text text_type_main-default text_color_inactive pl-2">
+                  Личный кабинет
+                </span>
+              </a>
             </li>
           </div>
         </ul>
