@@ -33,6 +33,7 @@ const BurgerConstructor = () => {
         (acc, item) => acc + item.price,
         burger.bun.price || 0
       ),
+    // eslint-disable-next-line
     [burger]
   );
 

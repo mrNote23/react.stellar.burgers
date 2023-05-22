@@ -11,12 +11,22 @@ const SAUCE = "sauce";
 const BurgerIngredients = () => {
   const [currentTab, setCurrentTab] = useState(BUN);
 
-  const buns = useMemo(() => data.filter((elm) => elm.type === BUN), [data]);
-  const sauces = useMemo(
-    () => data.filter((elm) => elm.type === SAUCE),
+  const buns = useMemo(
+    () => data.filter((elm) => elm.type === BUN),
+    // eslint-disable-next-line
     [data]
   );
-  const mains = useMemo(() => data.filter((elm) => elm.type === MAIN), [data]);
+  const sauces = useMemo(
+    () => data.filter((elm) => elm.type === SAUCE),
+    // eslint-disable-next-line
+    [data]
+  );
+  // eslint-disable-next-line
+  const mains = useMemo(
+    () => data.filter((elm) => elm.type === MAIN),
+    // eslint-disable-next-line
+    [data]
+  );
 
   return (
     <section className={styles.section}>
