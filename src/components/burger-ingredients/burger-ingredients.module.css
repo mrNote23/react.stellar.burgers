@@ -1,6 +1,5 @@
 .section {
 	width: 600px;
-	/*border: 1px solid #FFF;*/
 }
 
 .tabs {
@@ -13,26 +12,6 @@
 	justify-content: space-between;
 	overflow-x: hidden;
 	overflow-y: auto;
-	height: 99%;
+	height: calc(100% - 170px);
 }
 
-.ingredients .item {
-	display: flex;
-	flex-direction: column;
-	position: relative;
-	width: 50%;
-	/*border: 1px solid #FFF;*/
-	margin-top: 24px;
-	padding: 16px;
-}
-
-.ingredients .item img {
-	/*border: 1px solid #FFF;*/
-}
-
-.ingredients .item .price {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin: 4px 0;
-}

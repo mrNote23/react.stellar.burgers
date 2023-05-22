@@ -5,8 +5,29 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
+import { useEffect, useRef } from "react";
 
 const BurgerConstructor = () => {
+  const scrolledWindow = useRef();
+
+  const mas = new Array(50).fill(null);
+
+  useEffect(() => {
+    onResize();
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+    };
+  }, []);
+
+  const onResize = () => {
+    const maxHeight = Math.ceil((window.innerHeight - 600) / 96) * 96;
+    scrolledWindow.current.style.maxHeight = `${
+      maxHeight < 96 ? 96 : maxHeight
+    }px`;
+  };
+
   return (
     <section className={styles.section}>
       <div className={styles.list}>
@@ -20,26 +41,21 @@ const BurgerConstructor = () => {
             thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
           />
         </div>
-        <div className={styles.item}>
-          <div className={styles.drag}>
-            <DragIcon type="primary" />
-          </div>
-          <ConstructorElement
-            text="Плоды Фалленианского дерева"
-            price={874}
-            thumbnail="https://code.s3.yandex.net/react/code/sp_1.png"
-          />
+        <div className={styles.scrolled} ref={scrolledWindow}>
+          {mas.map((item, index) => (
+            <div className={styles.item} key={index}>
+              <div className={styles.drag}>
+                <DragIcon type="primary" />
+              </div>
+              <ConstructorElement
+                text="Плоды Фалленианского дерева"
+                price={874}
+                thumbnail="https://code.s3.yandex.net/react/code/sp_1.png"
+              />
+            </div>
+          ))}
         </div>
-        <div className={styles.item}>
-          <div className={styles.drag}>
-            <DragIcon type="primary" />
-          </div>
-          <ConstructorElement
-            text="Говяжий метеорит (отбивная)"
-            price={50}
-            thumbnail="https://code.s3.yandex.net/react/code/meat-04.png"
-          />
-        </div>
+
         <div className={styles.item}>
           <div className={styles.drag}></div>
           <ConstructorElement

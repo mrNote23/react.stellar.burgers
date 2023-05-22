@@ -1,20 +1,27 @@
 .section {
 	width: 600px;
 	margin-left: 40px;
-	/*border: 1px solid #FFF;*/
+	display: flex;
+	flex-direction: column;
 }
 
 .list {
 	margin-top: 100px;
 }
 
-.list .item {
+.scrolled {
+	overflow-x: hidden;
+	overflow-y: auto;
+	max-height: 192px;
+}
+
+.item {
 	display: flex;
 	align-items: center;
 	margin-bottom: 16px;
 }
 
-.list .item .drag {
+.drag {
 	width: 32px;
 }
 
