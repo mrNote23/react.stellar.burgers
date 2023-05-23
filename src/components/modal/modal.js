@@ -5,7 +5,7 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 
-const Modal = ({ children, visible, setVisible }) => {
+const Modal = ({ children, visible, setVisible, title = "" }) => {
   useEffect(
     () => {
       document.addEventListener("keydown", onKeyDown);
@@ -31,9 +31,12 @@ const Modal = ({ children, visible, setVisible }) => {
       {visible && (
         <ModalOverlay onClose={onClose}>
           <div className={`${styles.modal} p-4`}>
-            <button className={styles.closeBtn} onClick={onClose}>
-              <CloseIcon type="primary" />
-            </button>
+            <div className={styles.header}>
+              <p className="text text_type_main-large pl-5">{title}</p>
+              <button className={styles.closeBtn} onClick={onClose}>
+                <CloseIcon type="primary" />
+              </button>
+            </div>
             {children}
           </div>
         </ModalOverlay>
@@ -47,5 +50,6 @@ Modal.propTypes = {
   children: PropTypes.any,
   visible: PropTypes.bool.isRequired,
   setVisible: PropTypes.func.isRequired,
+  title: PropTypes.string,
 };
 export default Modal;

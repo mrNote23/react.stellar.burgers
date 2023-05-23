@@ -1,7 +1,6 @@
 .modal {
     display: flex;
     flex-direction: column;
-    position: relative;
     max-width: 720px;
     width: 100%;
     background-color: #1c1c21;
@@ -13,10 +12,12 @@
     z-index: 11;
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
 .closeBtn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
     background-color: transparent;
     border: none;
     cursor: pointer;

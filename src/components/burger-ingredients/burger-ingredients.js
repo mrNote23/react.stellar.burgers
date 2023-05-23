@@ -88,7 +88,11 @@ const BurgerIngredients = ({ data }) => {
           />
         ))}
       </div>
-      <Modal visible={showModal} setVisible={setShowModal}>
+      <Modal
+        visible={showModal}
+        setVisible={setShowModal}
+        title="Детали ингредиента"
+      >
         <IngredientDetails ingredient={currentIngredient.current} />
       </Modal>
     </section>
