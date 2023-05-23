@@ -7,7 +7,7 @@ import Error from "../error/error";
 
 const API = "https://norma.nomoreparties.space/api/ingredients";
 
-function App() {
+const App = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
 
@@ -41,6 +41,6 @@ function App() {
       )}
     </>
   );
-}
+};
 
 export default App;

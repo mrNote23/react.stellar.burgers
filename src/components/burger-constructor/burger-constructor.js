@@ -5,10 +5,18 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { burger } from "../../utils/burger";
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
+
+const order = {
+  id: "034536",
+};
 
 const BurgerConstructor = () => {
+  const [showModal, setShowModal] = useState(false);
+
   const scrolledWindow = useRef();
 
   useEffect(() => {
@@ -84,10 +92,14 @@ const BurgerConstructor = () => {
           type="primary"
           size="medium"
           extraClass="ml-10"
+          onClick={() => setShowModal(true)}
         >
           Оформить заказ
         </Button>
       </div>
+      <Modal visible={showModal} setVisible={setShowModal}>
+        <OrderDetails order={order} />
+      </Modal>
     </section>
   );
 };

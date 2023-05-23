@@ -1,7 +1,9 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import Ingredient from "./ingredient/ingredient";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
 const BUN = "bun";
 const MAIN = "main";
@@ -9,6 +11,8 @@ const SAUCE = "sauce";
 
 const BurgerIngredients = ({ data }) => {
   const [currentTab, setCurrentTab] = useState(BUN);
+  const [showModal, setShowModal] = useState(false);
+  const currentIngredient = useRef();
 
   const buns = useMemo(() => data.filter((elm) => elm.type === BUN), [data]);
   const sauces = useMemo(
@@ -16,6 +20,11 @@ const BurgerIngredients = ({ data }) => {
     [data]
   );
   const mains = useMemo(() => data.filter((elm) => elm.type === MAIN), [data]);
+
+  const showIngredientDetails = (ingredient) => {
+    currentIngredient.current = ingredient;
+    setShowModal(true);
+  };
 
   return (
     <section className={styles.section}>
@@ -52,19 +61,34 @@ const BurgerIngredients = ({ data }) => {
       <div className={styles.ingredients}>
         <p className="text text_type_main-medium mt-10 w-100">Булки</p>
         {buns.map((item) => (
-          <Ingredient key={item._id} {...item} />
+          <Ingredient
+            key={item._id}
+            ingredient={item}
+            onClick={() => showIngredientDetails(item)}
+          />
         ))}
 
         <p className="text text_type_main-medium mt-10 w-100">Соусы</p>
         {sauces.map((item) => (
-          <Ingredient key={item._id} {...item} />
+          <Ingredient
+            key={item._id}
+            ingredient={item}
+            onClick={() => showIngredientDetails(item)}
+          />
         ))}
 
         <p className="text text_type_main-medium mt-10 w-100">Начинки</p>
         {mains.map((item) => (
-          <Ingredient key={item._id} {...item} />
+          <Ingredient
+            key={item._id}
+            ingredient={item}
+            onClick={() => showIngredientDetails(item)}
+          />
         ))}
       </div>
+      <Modal visible={showModal} setVisible={setShowModal}>
+        <IngredientDetails ingredient={currentIngredient.current} />
+      </Modal>
     </section>
   );
 };
