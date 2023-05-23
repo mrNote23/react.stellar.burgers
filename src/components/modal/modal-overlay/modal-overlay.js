@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const ModalOverlay = ({ onClose, children }) => {
   const closeModal = (e) => {
     if (e.target.className === "modal-overlay") {
@@ -10,6 +12,11 @@ const ModalOverlay = ({ onClose, children }) => {
       {children}
     </div>
   );
+};
+
+ModalOverlay.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  children: PropTypes.any,
 };
 
 export default ModalOverlay;

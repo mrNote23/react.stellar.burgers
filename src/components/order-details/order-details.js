@@ -1,5 +1,7 @@
 import styles from "./order-details.module.css";
 import ready from "../../images/ready.png";
+import PropTypes from "prop-types";
+
 const OrderDetails = ({ order }) => {
   return (
     <>
@@ -18,6 +20,12 @@ const OrderDetails = ({ order }) => {
       </div>
     </>
   );
+};
+
+OrderDetails.propTypes = {
+  order: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default OrderDetails;

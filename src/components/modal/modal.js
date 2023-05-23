@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import ModalOverlay from "./modal-overlay/modal-overlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect } from "react";
+import PropTypes from "prop-types";
 
 const Modal = ({ children, visible, setVisible }) => {
   useEffect(
@@ -42,4 +43,9 @@ const Modal = ({ children, visible, setVisible }) => {
   );
 };
 
+Modal.propTypes = {
+  children: PropTypes.any,
+  visible: PropTypes.bool.isRequired,
+  setVisible: PropTypes.func.isRequired,
+};
 export default Modal;

@@ -4,6 +4,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient.module.css";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { ingredientType } from "../../../utils/main-prop-types";
 
 const Ingredient = ({ ingredient, onClick }) => {
   return (
@@ -27,6 +29,11 @@ const Ingredient = ({ ingredient, onClick }) => {
       </Link>
     </div>
   );
+};
+
+Ingredient.propTypes = {
+  ingredient: PropTypes.shape(ingredientType).isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default Ingredient;

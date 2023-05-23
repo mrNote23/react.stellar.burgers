@@ -4,6 +4,8 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import Ingredient from "./ingredient/ingredient";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import PropTypes from "prop-types";
+import { ingredientType } from "../../utils/main-prop-types";
 
 const BUN = "bun";
 const MAIN = "main";
@@ -91,6 +93,10 @@ const BurgerIngredients = ({ data }) => {
       </Modal>
     </section>
   );
+};
+
+BurgerIngredients.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.shape(ingredientType)).isRequired,
 };
 
 export default BurgerIngredients;
