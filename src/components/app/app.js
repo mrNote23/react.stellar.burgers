@@ -3,6 +3,7 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import { BrowserRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Error from "../error/error";
 
 const API = "https://norma.nomoreparties.space/api/ingredients";
 
@@ -35,7 +36,9 @@ function App() {
             <BurgerConstructor data={data} />
           </main>
         </BrowserRouter>
-      ) : null}
+      ) : (
+        <Error />
+      )}
     </>
   );
 }
