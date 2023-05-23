@@ -5,14 +5,14 @@ import { BrowserRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Error from "../error/error";
 
-const API = "https://norma.nomoreparties.space/api/ingredients";
+const API = "https://norma.nomoreparties.space/api";
 
 const App = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch(API)
+    fetch(`${API}/ingredients`)
       .then((response) => response.json())
       .then((data) => {
         if (!data.success) {
