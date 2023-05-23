@@ -1,31 +1,21 @@
 import { useMemo, useState } from "react";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { data } from "../../utils/data";
 import Ingredient from "./ingredient/ingredient";
 
 const BUN = "bun";
 const MAIN = "main";
 const SAUCE = "sauce";
 
-const BurgerIngredients = () => {
+const BurgerIngredients = ({ data }) => {
   const [currentTab, setCurrentTab] = useState(BUN);
 
-  const buns = useMemo(
-    () => data.filter((elm) => elm.type === BUN),
-    // eslint-disable-next-line
-    [data]
-  );
+  const buns = useMemo(() => data.filter((elm) => elm.type === BUN), [data]);
   const sauces = useMemo(
     () => data.filter((elm) => elm.type === SAUCE),
-    // eslint-disable-next-line
     [data]
   );
-  const mains = useMemo(
-    () => data.filter((elm) => elm.type === MAIN),
-    // eslint-disable-next-line
-    [data]
-  );
+  const mains = useMemo(() => data.filter((elm) => elm.type === MAIN), [data]);
 
   return (
     <section className={styles.section}>
