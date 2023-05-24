@@ -6,9 +6,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { burger } from "../../utils/burger";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
+import { useDrop } from "react-dnd";
+import { nanoid } from "nanoid";
 
 const order = {
   id: "034536",
@@ -16,6 +17,10 @@ const order = {
 
 const BurgerConstructor = () => {
   const [showModal, setShowModal] = useState(false);
+  const [burger, setBurger] = useState({
+    bun: null,
+    filling: [],
+  });
 
   const scrolledWindow = useRef();
 
@@ -35,29 +40,61 @@ const BurgerConstructor = () => {
     }px`;
   };
 
-  const burgerPrice = useMemo(
-    () =>
-      burger.filling.reduce(
-        (acc, item) => acc + item.price,
-        burger.bun.price || 0
-      ),
+  const [, dropIngredient] = useDrop({
+    accept: "ingredient",
+    drop: (item) => {
+      addIngredient({ ...item.ingredient, _id: nanoid() });
+    },
+  });
+
+  const addIngredient = (ingredient) => {
+    if (ingredient.type === "bun") {
+      setBurger({ ...burger, bun: { ...ingredient } });
+    } else {
+      setBurger({ ...burger, filling: [...burger.filling, ingredient] });
+    }
+  };
+
+  const burgerEmpty = useMemo(
+    () => !(burger.bun !== null || burger.filling.length > 0),
     // eslint-disable-next-line
     [burger]
   );
 
+  const burgerPrice = useMemo(
+    () =>
+      !burgerEmpty
+        ? burger.filling.reduce(
+            (acc, item) => acc + item.price,
+            burger.bun ? burger.bun.price : 0
+          )
+        : 0,
+    // eslint-disable-next-line
+    [burger]
+  );
+
+  const deleteIngredient = (ingredientId) => {
+    setBurger({
+      ...burger,
+      filling: burger.filling.filter((item) => item._id !== ingredientId),
+    });
+  };
+
   return (
-    <section className={styles.section}>
+    <section className={styles.section} ref={dropIngredient}>
       <div className={styles.list}>
-        <div className={styles.item}>
-          <div className={styles.drag}></div>
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text={`${burger.bun.name} (верх)`}
-            price={burger.bun.price}
-            thumbnail={burger.bun.image}
-          />
-        </div>
+        {burger.bun && (
+          <div className={styles.item}>
+            <div className={styles.drag}></div>
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={`${burger.bun.name} (верх)`}
+              price={burger.bun.price}
+              thumbnail={burger.bun.image}
+            />
+          </div>
+        )}
         <div className={styles.scrolled} ref={scrolledWindow}>
           {burger.filling.map((item, index) => (
             <div className={styles.item} key={index}>
@@ -68,35 +105,41 @@ const BurgerConstructor = () => {
                 text={item.name}
                 price={item.price}
                 thumbnail={item.image}
+                handleClose={() => deleteIngredient(item._id)}
               />
             </div>
           ))}
         </div>
-
-        <div className={styles.item}>
-          <div className={styles.drag}></div>
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text={`${burger.bun.name} (низ)`}
-            price={burger.bun.price}
-            thumbnail={burger.bun.image}
-          />
+        {burger.bun && (
+          <div className={styles.item}>
+            <div className={styles.drag}></div>
+            <ConstructorElement
+              type="bottom"
+              isLocked={true}
+              text={`${burger.bun.name} (низ)`}
+              price={burger.bun.price}
+              thumbnail={burger.bun.image}
+            />
+          </div>
+        )}
+      </div>
+      {!burgerEmpty && (
+        <div className={styles.footer}>
+          <span className="text text_type_digits-medium mr-2">
+            {burgerPrice}
+          </span>
+          <CurrencyIcon type="primary" />
+          <Button
+            htmlType="button"
+            type="primary"
+            size="medium"
+            extraClass="ml-10"
+            onClick={() => setShowModal(true)}
+          >
+            Оформить заказ
+          </Button>
         </div>
-      </div>
-      <div className={styles.footer}>
-        <span className="text text_type_digits-medium mr-2">{burgerPrice}</span>
-        <CurrencyIcon type="primary" />
-        <Button
-          htmlType="button"
-          type="primary"
-          size="medium"
-          extraClass="ml-10"
-          onClick={() => setShowModal(true)}
-        >
-          Оформить заказ
-        </Button>
-      </div>
+      )}
       <Modal visible={showModal} setVisible={setShowModal}>
         <OrderDetails order={order} />
       </Modal>

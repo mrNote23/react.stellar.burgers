@@ -23,6 +23,7 @@
 
 .drag {
 	width: 32px;
+	cursor: grab;
 }
 
 .footer {

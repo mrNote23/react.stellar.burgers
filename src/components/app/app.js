@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import Error from "../error/error";
 import Api from "../../utils/api";
 import Loader from "../loader/loader";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const App = () => {
   const [state, setState] = useState({
@@ -39,10 +41,12 @@ const App = () => {
       {!state.error ? (
         <BrowserRouter>
           <AppHeader />
-          <main className="container">
-            <BurgerIngredients data={state.data} />
-            <BurgerConstructor data={state.data} />
-          </main>
+          <DndProvider backend={HTML5Backend}>
+            <main className="container">
+              <BurgerIngredients data={state.data} />
+              <BurgerConstructor />
+            </main>
+          </DndProvider>
         </BrowserRouter>
       ) : (
         <Error />
