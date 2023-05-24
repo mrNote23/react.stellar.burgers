@@ -47,7 +47,7 @@ const Modal = ({ children, visible, setVisible, title = "" }) => {
 };
 
 Modal.propTypes = {
-  children: PropTypes.any,
+  children: PropTypes.element,
   visible: PropTypes.bool.isRequired,
   setVisible: PropTypes.func.isRequired,
   title: PropTypes.string,
