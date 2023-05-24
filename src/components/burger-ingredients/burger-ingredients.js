@@ -100,7 +100,8 @@ const BurgerIngredients = ({ data }) => {
 };
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape(ingredientType)).isRequired,
+  data: PropTypes.arrayOf(PropTypes.shape(ingredientType).isRequired)
+    .isRequired,
 };
 
 export default BurgerIngredients;
