@@ -6,7 +6,11 @@ const IngredientDetails = ({ ingredient }) => {
   return (
     <>
       <div className="pl-25 pr-25 text-center">
-        <img src={ingredient.image_large} alt={ingredient.name} />
+        <img
+          src={ingredient.image_large}
+          alt={ingredient.name}
+          className={styles.detailImg}
+        />
         <p className="text text_type_main-medium mt-4">{ingredient.name}</p>
         <ul className={`${styles.details} mt-8 mb-15`}>
           <li className={styles.detail}>
