@@ -66,7 +66,7 @@ const BurgerConstructor = () => {
       !burgerEmpty
         ? burger.filling.reduce(
             (acc, item) => acc + item.price,
-            burger.bun ? burger.bun.price : 0
+            burger.bun ? burger.bun.price * 2 : 0
           )
         : 0,
     // eslint-disable-next-line
