@@ -14,7 +14,7 @@ const SAUCE = "sauce";
 const BurgerIngredients = ({ data }) => {
   const [currentTab, setCurrentTab] = useState(BUN);
   const [showModal, setShowModal] = useState(false);
-  const currentIngredient = useRef();
+  const currentIngredient = useRef(null);
 
   const buns = useMemo(() => data.filter((elm) => elm.type === BUN), [data]);
   const sauces = useMemo(
@@ -93,7 +93,9 @@ const BurgerIngredients = ({ data }) => {
         setVisible={setShowModal}
         title="Детали ингредиента"
       >
-        <IngredientDetails ingredient={currentIngredient.current} />
+        {currentIngredient.current && (
+          <IngredientDetails ingredient={currentIngredient.current} />
+        )}
       </Modal>
     </section>
   );

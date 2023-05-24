@@ -4,36 +4,44 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import { BrowserRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Error from "../error/error";
-
-const API = "https://norma.nomoreparties.space/api";
+import Api from "../../utils/api";
+import Loader from "../loader/loader";
 
 const App = () => {
-  const [data, setData] = useState([]);
-  const [error, setError] = useState(false);
+  const [state, setState] = useState({
+    loading: true,
+    error: false,
+    data: [],
+  });
 
-  useEffect(() => {
-    fetch(`${API}/ingredients`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (!data.success) {
-          setError(true);
-          return;
-        }
-        setData(data.data);
-      })
-      .catch(() => {
-        setError(true);
-      });
-  }, []);
+  useEffect(
+    () => {
+      Api.loadIngredients()
+        .then((data) => {
+          if (data.success) {
+            setState({ ...state, data: data.data, loading: false });
+          } else {
+            setState({ ...state, error: true, loading: false });
+          }
+        })
+        .catch(() => setState({ ...state, error: true, loading: false }));
+    },
+    // eslint-disable-next-line
+    []
+  );
+
+  if (state.loading) {
+    return <Loader />;
+  }
 
   return (
     <>
-      {!error ? (
+      {!state.error ? (
         <BrowserRouter>
           <AppHeader />
           <main className="container">
-            <BurgerIngredients data={data} />
-            <BurgerConstructor data={data} />
+            <BurgerIngredients data={state.data} />
+            <BurgerConstructor data={state.data} />
           </main>
         </BrowserRouter>
       ) : (
