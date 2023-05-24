@@ -60,8 +60,8 @@ const BurgerIngredients = ({ data }) => {
           Начинки
         </Tab>
       </div>
-      <div className={styles.ingredients}>
-        <p className="text text_type_main-medium mt-10 w-100">Булки</p>
+      <div className={`${styles.ingredients} mt-5`}>
+        <p className="text text_type_main-medium mt-5 w-100">Булки</p>
         {buns.map((item) => (
           <Ingredient
             key={item._id}
