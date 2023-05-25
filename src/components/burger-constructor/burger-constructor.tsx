@@ -81,6 +81,12 @@ const BurgerConstructor = () => {
     });
   };
 
+  const swapIngredients = (first: number, second: number) => {
+    const tmp = [...burger.filling];
+    [tmp[first], tmp[second]] = [tmp[second], tmp[first]];
+    setBurger({ ...burger, filling: [...tmp] });
+  };
+
   return (
     <section className={styles.section} ref={dropIngredient}>
       <div className={styles.list}>
@@ -103,6 +109,7 @@ const BurgerConstructor = () => {
               onDelete={deleteIngredient}
               index={index}
               key={index}
+              onSwap={swapIngredients}
             />
           ))}
         </div>
