@@ -1,4 +1,4 @@
-import { FC, useMemo, useRef, useState } from "react";
+import { FC, useEffect, useMemo, useRef, useState } from "react";
 import { TIngredient } from "../../types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import Ingredient from "./ingredient/ingredient";
@@ -6,24 +6,100 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import styles from "./burger-ingredients.module.css";
 
-const BUN = "bun";
-const MAIN = "main";
-const SAUCE = "sauce";
+const BUN_TYPE = "bun";
+const MAIN_TYPE = "main";
+const SAUCE_TYPE = "sauce";
+
+const BUN = { type: BUN_TYPE, scroll: true };
+const MAIN = { type: MAIN_TYPE, scroll: true };
+const SAUCE = { type: SAUCE_TYPE, scroll: true };
 
 const BurgerIngredients: FC<{ data: TIngredient[] }> = ({ data }) => {
   const [currentTab, setCurrentTab] = useState(BUN);
   const [showModal, setShowModal] = useState(false);
   const currentIngredient = useRef<TIngredient | null>(null);
 
+  const bunTarget = useRef<HTMLParagraphElement>(null);
+  const mainTarget = useRef<HTMLParagraphElement>(null);
+  const sauceTarget = useRef<HTMLParagraphElement>(null);
+
+  const scrollWindow = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!currentTab.scroll) {
+      return;
+    }
+    switch (currentTab.type) {
+      case BUN_TYPE:
+        (bunTarget.current as HTMLParagraphElement).scrollIntoView({
+          behavior: "smooth",
+        });
+        break;
+      case MAIN_TYPE:
+        (mainTarget.current as HTMLParagraphElement).scrollIntoView({
+          behavior: "smooth",
+        });
+        break;
+      case SAUCE_TYPE:
+        (sauceTarget.current as HTMLParagraphElement).scrollIntoView({
+          behavior: "smooth",
+        });
+        break;
+      default:
+        break;
+    }
+  }, [currentTab]);
+
+  useEffect(() => {
+    const targets = [
+      bunTarget.current,
+      mainTarget.current,
+      sauceTarget.current,
+    ];
+    const observer = new IntersectionObserver(
+      (entries: IntersectionObserverEntry[]) => {
+        entries.every((entry: any) => {
+          if (entry.isIntersecting) {
+            switch (entry.target) {
+              case bunTarget.current:
+                setCurrentTab({ ...BUN, scroll: false });
+                return false;
+              case sauceTarget.current:
+                setCurrentTab({ ...SAUCE, scroll: false });
+                return false;
+              case mainTarget.current:
+                setCurrentTab({ ...MAIN, scroll: false });
+                return false;
+              default:
+                break;
+            }
+          }
+          return true;
+        });
+      },
+      {
+        root: scrollWindow.current,
+        rootMargin: "0px 0px -90% 0px",
+      }
+    );
+
+    targets.forEach((target) =>
+      observer.observe(target as HTMLParagraphElement)
+    );
+  }, []);
+
   const buns = useMemo(
-    () => data.filter((elm: TIngredient) => elm.type === BUN),
+    () => data.filter((elm: TIngredient) => elm.type === BUN_TYPE),
     [data]
   );
   const sauces = useMemo(
-    () => data.filter((elm: TIngredient) => elm.type === SAUCE),
+    () => data.filter((elm: TIngredient) => elm.type === SAUCE_TYPE),
     [data]
   );
-  const mains = useMemo(() => data.filter((elm) => elm.type === MAIN), [data]);
+  const mains = useMemo(
+    () => data.filter((elm) => elm.type === MAIN_TYPE),
+    [data]
+  );
 
   const showIngredientDetails = (ingredient: TIngredient) => {
     currentIngredient.current = ingredient;
@@ -35,8 +111,8 @@ const BurgerIngredients: FC<{ data: TIngredient[] }> = ({ data }) => {
       <p className="text text_type_main-large mt-10 pb-5">Соберите бургер</p>
       <div className={styles.tabs}>
         <Tab
-          value={BUN}
-          active={currentTab === BUN}
+          value={BUN_TYPE}
+          active={currentTab.type === BUN_TYPE}
           onClick={() => {
             setCurrentTab(BUN);
           }}
@@ -44,8 +120,8 @@ const BurgerIngredients: FC<{ data: TIngredient[] }> = ({ data }) => {
           Булки
         </Tab>
         <Tab
-          value={SAUCE}
-          active={currentTab === SAUCE}
+          value={SAUCE_TYPE}
+          active={currentTab.type === SAUCE_TYPE}
           onClick={() => {
             setCurrentTab(SAUCE);
           }}
@@ -53,8 +129,8 @@ const BurgerIngredients: FC<{ data: TIngredient[] }> = ({ data }) => {
           Соусы
         </Tab>
         <Tab
-          value={MAIN}
-          active={currentTab === MAIN}
+          value={MAIN_TYPE}
+          active={currentTab.type === MAIN_TYPE}
           onClick={() => {
             setCurrentTab(MAIN);
           }}
@@ -62,8 +138,10 @@ const BurgerIngredients: FC<{ data: TIngredient[] }> = ({ data }) => {
           Начинки
         </Tab>
       </div>
-      <div className={`${styles.ingredients} mt-5`}>
-        <p className="text text_type_main-medium mt-5 w-100">Булки</p>
+      <div className={`${styles.ingredients} mt-5`} ref={scrollWindow}>
+        <p className="text text_type_main-medium mt-5 w-100" ref={bunTarget}>
+          Булки
+        </p>
         {buns.map((item: TIngredient) => (
           <Ingredient
             key={item._id}
@@ -72,7 +150,9 @@ const BurgerIngredients: FC<{ data: TIngredient[] }> = ({ data }) => {
           />
         ))}
 
-        <p className="text text_type_main-medium mt-10 w-100">Соусы</p>
+        <p className="text text_type_main-medium mt-10 w-100" ref={sauceTarget}>
+          Соусы
+        </p>
         {sauces.map((item: TIngredient) => (
           <Ingredient
             key={item._id}
@@ -81,7 +161,9 @@ const BurgerIngredients: FC<{ data: TIngredient[] }> = ({ data }) => {
           />
         ))}
 
-        <p className="text text_type_main-medium mt-10 w-100">Начинки</p>
+        <p className="text text_type_main-medium mt-10 w-100" ref={mainTarget}>
+          Начинки
+        </p>
         {mains.map((item: TIngredient) => (
           <Ingredient
             key={item._id}
