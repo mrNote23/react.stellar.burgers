@@ -6,12 +6,12 @@ import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./ingredient.module.css";
+import styles from "./burger-ingredients-item.module.css";
 
-const Ingredient: FC<{ ingredient: TIngredient; onClick: () => void }> = ({
-  ingredient,
-  onClick,
-}) => {
+const BurgerIngredientsItem: FC<{
+  ingredient: TIngredient;
+  onClick: () => void;
+}> = ({ ingredient, onClick }) => {
   const [, dragIngredient] = useDrag({
     type: "ingredient",
     item: {
@@ -42,4 +42,4 @@ const Ingredient: FC<{ ingredient: TIngredient; onClick: () => void }> = ({
   );
 };
 
-export default Ingredient;
+export default BurgerIngredientsItem;

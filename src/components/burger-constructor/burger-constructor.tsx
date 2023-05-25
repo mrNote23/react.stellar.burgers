@@ -4,13 +4,13 @@ import { nanoid } from "nanoid";
 import { TBurger, TIngredient } from "../../types";
 import {
   ConstructorElement,
-  DragIcon,
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import styles from "./burger-constructor.module.css";
+import BurgerConstructorItem from "./burger-constructor-item/burger-constructor-item";
 
 const order = {
   id: "034536",
@@ -98,17 +98,12 @@ const BurgerConstructor = () => {
         )}
         <div className={styles.scrolled} ref={scrolledWindow}>
           {burger.filling.map((item, index) => (
-            <div className={styles.item} key={index}>
-              <div className={styles.drag}>
-                <DragIcon type="primary" />
-              </div>
-              <ConstructorElement
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image}
-                handleClose={() => deleteIngredient(item._id)}
-              />
-            </div>
+            <BurgerConstructorItem
+              ingredient={item}
+              onDelete={deleteIngredient}
+              index={index}
+              key={index}
+            />
           ))}
         </div>
         {burger.bun && (

@@ -1,7 +1,7 @@
 import { FC, useEffect, useMemo, useRef, useState } from "react";
 import { TIngredient } from "../../types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import Ingredient from "./ingredient/ingredient";
+import BurgerIngredientsItem from "./burger-ingredients-item/burger-ingredients-item";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import styles from "./burger-ingredients.module.css";
@@ -143,7 +143,7 @@ const BurgerIngredients: FC<{ data: TIngredient[] }> = ({ data }) => {
           Булки
         </p>
         {buns.map((item: TIngredient) => (
-          <Ingredient
+          <BurgerIngredientsItem
             key={item._id}
             ingredient={item}
             onClick={() => showIngredientDetails(item)}
@@ -154,7 +154,7 @@ const BurgerIngredients: FC<{ data: TIngredient[] }> = ({ data }) => {
           Соусы
         </p>
         {sauces.map((item: TIngredient) => (
-          <Ingredient
+          <BurgerIngredientsItem
             key={item._id}
             ingredient={item}
             onClick={() => showIngredientDetails(item)}
@@ -165,7 +165,7 @@ const BurgerIngredients: FC<{ data: TIngredient[] }> = ({ data }) => {
           Начинки
         </p>
         {mains.map((item: TIngredient) => (
-          <Ingredient
+          <BurgerIngredientsItem
             key={item._id}
             ingredient={item}
             onClick={() => showIngredientDetails(item)}
