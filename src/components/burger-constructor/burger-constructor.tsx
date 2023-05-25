@@ -1,28 +1,29 @@
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useDrop } from "react-dnd";
+import { nanoid } from "nanoid";
+import { TBurger, TIngredient } from "../../types";
 import {
   ConstructorElement,
   DragIcon,
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./burger-constructor.module.css";
-import { useEffect, useMemo, useRef, useState } from "react";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { useDrop } from "react-dnd";
-import { nanoid } from "nanoid";
+import styles from "./burger-constructor.module.css";
 
 const order = {
   id: "034536",
 };
 
 const BurgerConstructor = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [burger, setBurger] = useState({
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [burger, setBurger] = useState<TBurger>({
     bun: null,
     filling: [],
   });
 
-  const scrolledWindow = useRef();
+  const scrolledWindow = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     onResize();
@@ -35,19 +36,19 @@ const BurgerConstructor = () => {
 
   const onResize = () => {
     const maxHeight = Math.ceil((window.innerHeight - 600) / 96) * 96;
-    scrolledWindow.current.style.maxHeight = `${
+    (scrolledWindow.current as HTMLElement).style.maxHeight = `${
       maxHeight < 96 ? 96 : maxHeight
     }px`;
   };
 
   const [, dropIngredient] = useDrop({
     accept: "ingredient",
-    drop: (item) => {
+    drop: (item: { [key: string]: TIngredient }) => {
       addIngredient({ ...item.ingredient, _id: nanoid() });
     },
   });
 
-  const addIngredient = (ingredient) => {
+  const addIngredient = (ingredient: TIngredient) => {
     if (ingredient.type === "bun") {
       setBurger({ ...burger, bun: { ...ingredient } });
     } else {
@@ -73,7 +74,7 @@ const BurgerConstructor = () => {
     [burger]
   );
 
-  const deleteIngredient = (ingredientId) => {
+  const deleteIngredient = (ingredientId: string) => {
     setBurger({
       ...burger,
       filling: burger.filling.filter((item) => item._id !== ingredientId),

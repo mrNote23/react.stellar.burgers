@@ -1,11 +1,15 @@
-import styles from "./modal.module.css";
+import { FC, ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
 import ModalOverlay from "./modal-overlay/modal-overlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect } from "react";
-import PropTypes from "prop-types";
+import styles from "./modal.module.css";
 
-const Modal = ({ children, visible, setVisible, title = "" }) => {
+const Modal: FC<{
+  children?: ReactNode;
+  visible: boolean;
+  setVisible: (value: boolean) => void;
+  title?: string;
+}> = ({ children, visible, setVisible, title = "" }) => {
   useEffect(
     () => {
       document.addEventListener("keydown", onKeyDown);
@@ -18,7 +22,7 @@ const Modal = ({ children, visible, setVisible, title = "" }) => {
     []
   );
 
-  const onKeyDown = (e) => {
+  const onKeyDown = (e: KeyboardEvent) => {
     e.key === "Escape" && onClose();
   };
 
@@ -42,14 +46,8 @@ const Modal = ({ children, visible, setVisible, title = "" }) => {
         </ModalOverlay>
       )}
     </>,
-    document.getElementById("modal-window")
+    document.getElementById("modal-window") as HTMLElement
   );
 };
 
-Modal.propTypes = {
-  children: PropTypes.element,
-  visible: PropTypes.bool.isRequired,
-  setVisible: PropTypes.func.isRequired,
-  title: PropTypes.string,
-};
 export default Modal;

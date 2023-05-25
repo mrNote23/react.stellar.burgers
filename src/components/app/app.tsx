@@ -1,16 +1,28 @@
+import { useEffect, useState } from "react";
+import { BrowserRouter } from "react-router-dom";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { TIngredient } from "../../types";
 import AppHeader from "../app-header/app-header";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import { BrowserRouter } from "react-router-dom";
-import { useEffect, useState } from "react";
 import Error from "../error/error";
 import Api from "../../utils/api";
 import Loader from "../loader/loader";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+
+type TState = {
+  loading: boolean;
+  error: boolean;
+  data: TIngredient[];
+};
+
+type TResponse = {
+  success: boolean;
+  data: TIngredient[];
+};
 
 const App = () => {
-  const [state, setState] = useState({
+  const [state, setState] = useState<TState>({
     loading: true,
     error: false,
     data: [],
@@ -19,9 +31,13 @@ const App = () => {
   useEffect(
     () => {
       Api.loadIngredients()
-        .then((data) => {
-          if (data.success) {
-            setState({ ...state, data: data.data, loading: false });
+        .then((data: TResponse | unknown) => {
+          if ((data as TResponse).success) {
+            setState({
+              ...state,
+              data: (data as TResponse).data,
+              loading: false,
+            });
           } else {
             setState({ ...state, error: true, loading: false });
           }

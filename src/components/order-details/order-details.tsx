@@ -1,8 +1,9 @@
-import styles from "./order-details.module.css";
+import { FC } from "react";
+import { TOrder } from "../../types";
 import ready from "../../images/ready.png";
-import PropTypes from "prop-types";
+import styles from "./order-details.module.css";
 
-const OrderDetails = ({ order }) => {
+const OrderDetails: FC<{ order: TOrder }> = ({ order }) => {
   return (
     <>
       <div className="pl-25 pr-25 text-center">
@@ -20,12 +21,6 @@ const OrderDetails = ({ order }) => {
       </div>
     </>
   );
-};
-
-OrderDetails.propTypes = {
-  order: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-  }).isRequired,
 };
 
 export default OrderDetails;
