@@ -1,0 +1,15 @@
+.item {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	width: 50%;
+	margin-top: 24px;
+	padding: 16px;
+}
+
+.price {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 4px 0;
+}

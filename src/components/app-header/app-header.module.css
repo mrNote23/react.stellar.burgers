@@ -1,0 +1,33 @@
+.header {
+	background-color: #1C1C21;
+}
+
+.nav {
+	width: 1240px;
+	margin: 0 auto;
+}
+
+.menu {
+	margin: 0;
+	padding-left: 0;
+	padding-right: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	list-style: none;
+}
+
+.link {
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+
+.link:hover {
+	box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+	border-radius: 40px;
+}
+
+.logo {
+	cursor: pointer;
+}

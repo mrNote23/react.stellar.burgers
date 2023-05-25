@@ -1,0 +1,17 @@
+.section {
+	width: 600px;
+}
+
+.tabs {
+	display: flex;
+}
+
+.ingredients {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	overflow-x: hidden;
+	overflow-y: auto;
+	height: calc(100% - 170px);
+}
+
