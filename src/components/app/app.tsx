@@ -28,25 +28,27 @@ const App = () => {
     data: [],
   });
 
-  useEffect(
-    () => {
-      Api.loadIngredients()
-        .then((data: TResponse | unknown) => {
-          if ((data as TResponse).success) {
-            setState({
-              ...state,
-              data: (data as TResponse).data,
-              loading: false,
-            });
-          } else {
-            setState({ ...state, error: true, loading: false });
-          }
-        })
-        .catch(() => setState({ ...state, error: true, loading: false }));
-    },
-    // eslint-disable-next-line
-    []
-  );
+  useEffect(() => {
+    Api.loadIngredients()
+      .then((data: TResponse | unknown) => {
+        if ((data as TResponse).success) {
+          setState((prev) => ({
+            ...prev,
+            data: (data as TResponse).data,
+            loading: false,
+          }));
+        } else {
+          setState((prev: TState) => ({
+            ...prev,
+            error: true,
+            loading: false,
+          }));
+        }
+      })
+      .catch(() =>
+        setState((prev: TState) => ({ ...prev, error: true, loading: false }))
+      );
+  }, []);
 
   if (state.loading) {
     return <Loader />;

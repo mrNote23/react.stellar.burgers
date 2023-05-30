@@ -10,34 +10,29 @@ const Modal: FC<{
   setVisible: (value: boolean) => void;
   title?: string;
 }> = ({ children, visible, setVisible, title = "" }) => {
-  useEffect(
-    () => {
-      document.addEventListener("keydown", onKeyDown);
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      e.key === "Escape" && setVisible(false);
+    };
 
-      return () => {
-        document.removeEventListener("keydown", onKeyDown);
-      };
-    },
-    // eslint-disable-next-line
-    []
-  );
+    document.addEventListener("keydown", onKeyDown);
 
-  const onKeyDown = (e: KeyboardEvent) => {
-    e.key === "Escape" && onClose();
-  };
-
-  const onClose = () => {
-    setVisible(false);
-  };
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [setVisible]);
 
   return createPortal(
     <>
       {visible && (
-        <ModalOverlay onClose={onClose}>
+        <ModalOverlay onClose={() => setVisible(false)}>
           <div className={`${styles.modal} p-4`}>
             <div className={styles.header}>
               <p className="text text_type_main-large pl-5">{title}</p>
-              <button className={styles.closeBtn} onClick={onClose}>
+              <button
+                className={styles.closeBtn}
+                onClick={() => setVisible(false)}
+              >
                 <CloseIcon type="primary" />
               </button>
             </div>

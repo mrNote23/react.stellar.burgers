@@ -50,15 +50,17 @@ const BurgerConstructor = () => {
 
   const addIngredient = (ingredient: TIngredient) => {
     if (ingredient.type === "bun") {
-      setBurger({ ...burger, bun: { ...ingredient } });
+      setBurger((prev) => ({ ...prev, bun: { ...ingredient } }));
     } else {
-      setBurger({ ...burger, filling: [...burger.filling, ingredient] });
+      setBurger((prev) => ({
+        ...prev,
+        filling: [...burger.filling, ingredient],
+      }));
     }
   };
 
   const burgerEmpty = useMemo(
     () => !(burger.bun !== null || burger.filling.length > 0),
-    // eslint-disable-next-line
     [burger]
   );
 
@@ -70,8 +72,7 @@ const BurgerConstructor = () => {
             burger.bun ? burger.bun.price * 2 : 0
           )
         : 0,
-    // eslint-disable-next-line
-    [burger]
+    [burger, burgerEmpty]
   );
 
   const deleteIngredient = (ingredientId: string) => {
