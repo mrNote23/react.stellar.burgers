@@ -1,20 +1,21 @@
-import { FC, ReactNode, MouseEvent } from "react";
+import { FC, ReactNode, MouseEvent } from "react"
 
-const ModalOverlay: FC<{ onClose: () => void; children?: ReactNode }> = ({
-  onClose,
-  children,
-}) => {
+type TModalOverlayProps = {
+  onClose: () => void
+  children?: ReactNode
+}
+const ModalOverlay: FC<TModalOverlayProps> = ({ onClose, children }) => {
   const closeModal = (e: MouseEvent<HTMLElement>) => {
     if ((e.target as HTMLElement).className === "modal-overlay") {
-      onClose();
+      onClose()
     }
-  };
+  }
 
   return (
-    <div className="modal-overlay" onClick={closeModal}>
+    <div className='modal-overlay' onClick={closeModal}>
       {children}
     </div>
-  );
-};
+  )
+}
 
-export default ModalOverlay;
+export default ModalOverlay
