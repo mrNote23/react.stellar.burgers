@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -10,11 +10,11 @@ import Error from "../error/error";
 import Api from "../../utils/api";
 import Loader from "../loader/loader";
 import { IngredientsContext } from "../../services/ingredients-context";
+import { ingredientsReducer } from "../../services/ingredients-reducer";
 
 type TState = {
   loading: boolean;
   error: boolean;
-  data: TIngredient[];
 };
 
 type TResponse = {
@@ -26,16 +26,20 @@ const App = () => {
   const [state, setState] = useState<TState>({
     loading: true,
     error: false,
-    data: [],
   });
+
+  const [data, dispatchIngredients] = useReducer(ingredientsReducer, []);
 
   useEffect(() => {
     Api.loadIngredients()
       .then((data: TResponse | unknown) => {
         if ((data as TResponse).success) {
+          dispatchIngredients({
+            type: "set",
+            payload: (data as TResponse).data,
+          });
           setState((prev) => ({
             ...prev,
-            data: (data as TResponse).data,
             loading: false,
           }));
         } else {
@@ -60,7 +64,7 @@ const App = () => {
       {!state.error ? (
         <BrowserRouter>
           <AppHeader />
-          <IngredientsContext.Provider value={state.data}>
+          <IngredientsContext.Provider value={{ data, dispatchIngredients }}>
             <DndProvider backend={HTML5Backend}>
               <main className="container">
                 <BurgerIngredients />

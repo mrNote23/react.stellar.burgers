@@ -1,4 +1,5 @@
 export type TIngredient = {
+  id?: string;
   _id: string;
   name: string;
   type: string;
@@ -11,6 +12,7 @@ export type TIngredient = {
   image_mobile: string;
   image_large: string;
   __v: number;
+  include?: number;
 };
 
 export type TBurger = {
@@ -18,6 +20,14 @@ export type TBurger = {
   filling: TIngredient[];
 };
 
+export type TCreateOrder = {
+  ingredients: string[];
+};
+
 export type TOrder = {
-  id: string;
+  name?: string;
+  order?: {
+    number: number;
+  };
+  success: boolean;
 };

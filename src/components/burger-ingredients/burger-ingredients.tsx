@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { TIngredient } from "../../types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredientsItem from "./burger-ingredients-item/burger-ingredients-item";
@@ -15,11 +15,8 @@ const BUN = { type: BUN_TYPE, scroll: true };
 const MAIN = { type: MAIN_TYPE, scroll: true };
 const SAUCE = { type: SAUCE_TYPE, scroll: true };
 
-// type TBurgerIngredientsProps = {
-//   data: TIngredient[]
-// }
 const BurgerIngredients = () => {
-  const data = useContext(IngredientsContext);
+  const { data } = useContext(IngredientsContext);
 
   const [currentTab, setCurrentTab] = useState(BUN);
   const [showModal, setShowModal] = useState(false);
