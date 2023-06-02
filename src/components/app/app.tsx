@@ -1,32 +1,33 @@
-import { useEffect, useState } from "react"
-import { BrowserRouter } from "react-router-dom"
-import { DndProvider } from "react-dnd"
-import { HTML5Backend } from "react-dnd-html5-backend"
-import { TIngredient } from "../../types"
-import AppHeader from "../app-header/app-header"
-import BurgerConstructor from "../burger-constructor/burger-constructor"
-import BurgerIngredients from "../burger-ingredients/burger-ingredients"
-import Error from "../error/error"
-import Api from "../../utils/api"
-import Loader from "../loader/loader"
+import { useEffect, useState } from "react";
+import { BrowserRouter } from "react-router-dom";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { TIngredient } from "../../types";
+import AppHeader from "../app-header/app-header";
+import BurgerConstructor from "../burger-constructor/burger-constructor";
+import BurgerIngredients from "../burger-ingredients/burger-ingredients";
+import Error from "../error/error";
+import Api from "../../utils/api";
+import Loader from "../loader/loader";
+import { IngredientsContext } from "../../services/ingredients-context";
 
 type TState = {
-  loading: boolean
-  error: boolean
-  data: TIngredient[]
-}
+  loading: boolean;
+  error: boolean;
+  data: TIngredient[];
+};
 
 type TResponse = {
-  success: boolean
-  data: TIngredient[]
-}
+  success: boolean;
+  data: TIngredient[];
+};
 
 const App = () => {
   const [state, setState] = useState<TState>({
     loading: true,
     error: false,
-    data: []
-  })
+    data: [],
+  });
 
   useEffect(() => {
     Api.loadIngredients()
@@ -35,21 +36,23 @@ const App = () => {
           setState((prev) => ({
             ...prev,
             data: (data as TResponse).data,
-            loading: false
-          }))
+            loading: false,
+          }));
         } else {
           setState((prev: TState) => ({
             ...prev,
             error: true,
-            loading: false
-          }))
+            loading: false,
+          }));
         }
       })
-      .catch(() => setState((prev: TState) => ({ ...prev, error: true, loading: false })))
-  }, [])
+      .catch(() =>
+        setState((prev: TState) => ({ ...prev, error: true, loading: false }))
+      );
+  }, []);
 
   if (state.loading) {
-    return <Loader />
+    return <Loader />;
   }
 
   return (
@@ -57,18 +60,20 @@ const App = () => {
       {!state.error ? (
         <BrowserRouter>
           <AppHeader />
-          <DndProvider backend={HTML5Backend}>
-            <main className='container'>
-              <BurgerIngredients data={state.data} />
-              <BurgerConstructor />
-            </main>
-          </DndProvider>
+          <IngredientsContext.Provider value={state.data}>
+            <DndProvider backend={HTML5Backend}>
+              <main className="container">
+                <BurgerIngredients />
+                <BurgerConstructor />
+              </main>
+            </DndProvider>
+          </IngredientsContext.Provider>
         </BrowserRouter>
       ) : (
         <Error />
       )}
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
