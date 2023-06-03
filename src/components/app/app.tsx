@@ -33,22 +33,14 @@ const App = () => {
   useEffect(() => {
     Api.loadIngredients()
       .then((data: TResponse | unknown) => {
-        if ((data as TResponse).success) {
-          dispatchIngredients({
-            type: "set",
-            payload: (data as TResponse).data,
-          });
-          setState((prev) => ({
-            ...prev,
-            loading: false,
-          }));
-        } else {
-          setState((prev: TState) => ({
-            ...prev,
-            error: true,
-            loading: false,
-          }));
-        }
+        dispatchIngredients({
+          type: "set",
+          payload: (data as TResponse).data,
+        });
+        setState((prev) => ({
+          ...prev,
+          loading: false,
+        }));
       })
       .catch(() =>
         setState((prev: TState) => ({ ...prev, error: true, loading: false }))

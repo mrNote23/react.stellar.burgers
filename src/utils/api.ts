@@ -2,32 +2,45 @@ import { TCreateOrder } from "../types";
 
 const API = "https://norma.nomoreparties.space/api";
 
-class Api {
-  static loadIngredients = () => {
-    return new Promise((resolve, reject) => {
-      fetch(`${API}/ingredients`)
-        .then((response) => response.json())
-        .catch(() => reject(false))
-        .then((data) => resolve(data))
-        .catch(() => reject(false));
-    });
+type TResponse = {
+  [key: string]: unknown;
+};
+
+class _Api {
+  private _baseUrl = API;
+
+  private _checkResponse = (response: Response) => {
+    return response.ok
+      ? response.json()
+      : Promise.reject(`Error ${response.status}`);
   };
 
-  static createOrder = (order: TCreateOrder) => {
-    return new Promise((resolve, reject) => {
-      fetch(`${API}/orders`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(order),
-      })
-        .then((response) => response.json())
-        .catch(() => reject(false))
-        .then((data) => resolve(data))
-        .catch(() => reject(false));
+  private _checkSuccess = (response: TResponse) => {
+    return response.success
+      ? Promise.resolve(response)
+      : Promise.reject(`Response not success ${response}`);
+  };
+
+  private _request = (url: string, options = {}) => {
+    return fetch(`${this._baseUrl}${url}`, options)
+      .then(this._checkResponse)
+      .then(this._checkSuccess);
+  };
+
+  public loadIngredients = () => {
+    return this._request("/ingredients");
+  };
+
+  public createOrder = (order: TCreateOrder) => {
+    return this._request("/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(order),
     });
   };
 }
 
+const Api = new _Api();
 export default Api;

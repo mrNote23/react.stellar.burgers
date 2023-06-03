@@ -116,15 +116,11 @@ const BurgerConstructor = () => {
     tmp = [...tmp, ...burger.filling.map((item) => item._id)];
     Api.createOrder({ ingredients: tmp })
       .then((data) => {
-        if ((data as TOrder).success) {
-          setOrder(data as TOrder);
-          setBurger(emptyBurger);
-          dispatchIngredients({ type: "reset" });
-        } else {
-          setOrder({ success: false });
-        }
+        setOrder(data as TOrder);
+        setBurger(emptyBurger);
         setShowModal(true);
         setLoading(false);
+        dispatchIngredients({ type: "reset" });
       })
       .catch(() => {
         setOrder({ success: false });
