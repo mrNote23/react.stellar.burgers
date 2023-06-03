@@ -13,6 +13,7 @@ import styles from "./burger-constructor.module.css";
 import BurgerConstructorItem from "./burger-constructor-item/burger-constructor-item";
 import Api from "../../utils/api";
 import { IngredientsContext } from "../../services/ingredients-context";
+import { useModal } from "../../hooks/use-modal";
 
 const emptyBurger = {
   bun: null,
@@ -20,11 +21,12 @@ const emptyBurger = {
 };
 
 const BurgerConstructor = () => {
-  const [showModal, setShowModal] = useState<boolean>(false);
   const [burger, setBurger] = useState<TBurger>(emptyBurger);
-
   const [order, setOrder] = useState<TOrder | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const { isModalOpen, openModal, closeModal } = useModal(false);
+
   const scrolledWindow = useRef<HTMLDivElement>(null);
 
   const { dispatchIngredients } = useContext(IngredientsContext);
@@ -118,13 +120,13 @@ const BurgerConstructor = () => {
       .then((data) => {
         setOrder(data as TOrder);
         setBurger(emptyBurger);
-        setShowModal(true);
+        openModal();
         setLoading(false);
         dispatchIngredients({ type: "reset" });
       })
       .catch(() => {
         setOrder({ success: false });
-        setShowModal(true);
+        openModal();
         setLoading(false);
       });
   };
@@ -186,9 +188,11 @@ const BurgerConstructor = () => {
           </Button>
         </div>
       )}
-      <Modal visible={showModal} setVisible={setShowModal}>
-        <OrderDetails order={order} />
-      </Modal>
+      {isModalOpen && (
+        <Modal onClose={closeModal}>
+          <OrderDetails order={order} />
+        </Modal>
+      )}
     </section>
   );
 };

@@ -6,6 +6,7 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import styles from "./burger-ingredients.module.css";
 import { IngredientsContext } from "../../services/ingredients-context";
+import { useModal } from "../../hooks/use-modal";
 
 const BUN_TYPE = "bun";
 const MAIN_TYPE = "main";
@@ -19,7 +20,9 @@ const BurgerIngredients = () => {
   const { data } = useContext(IngredientsContext);
 
   const [currentTab, setCurrentTab] = useState(BUN);
-  const [showModal, setShowModal] = useState(false);
+
+  const { isModalOpen, openModal, closeModal } = useModal(false);
+
   const currentIngredient = useRef<TIngredient | null>(null);
 
   const bunTarget = useRef<HTMLParagraphElement>(null);
@@ -106,7 +109,7 @@ const BurgerIngredients = () => {
 
   const showIngredientDetails = (ingredient: TIngredient) => {
     currentIngredient.current = ingredient;
-    setShowModal(true);
+    openModal();
   };
 
   return (
@@ -175,15 +178,13 @@ const BurgerIngredients = () => {
           />
         ))}
       </div>
-      <Modal
-        visible={showModal}
-        setVisible={setShowModal}
-        title="Детали ингредиента"
-      >
-        {currentIngredient.current && (
-          <IngredientDetails ingredient={currentIngredient.current} />
-        )}
-      </Modal>
+      {isModalOpen && (
+        <Modal onClose={closeModal} title="Детали ингредиента">
+          {currentIngredient.current && (
+            <IngredientDetails ingredient={currentIngredient.current} />
+          )}
+        </Modal>
+      )}
     </section>
   );
 };
