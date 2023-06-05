@@ -12,7 +12,7 @@ export type TIngredient = {
   image_mobile: string;
   image_large: string;
   __v: number;
-  include?: number;
+  include: number;
 };
 
 export type TBurger = {
@@ -20,14 +20,11 @@ export type TBurger = {
   filling: TIngredient[];
 };
 
-export type TCreateOrder = {
-  ingredients: string[];
-};
-
 export type TOrder = {
-  name?: string;
-  order?: {
+  name: string;
+  order: {
     number: number;
   };
   success: boolean;
+  loading: boolean;
 };

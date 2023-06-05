@@ -1,11 +1,13 @@
-import { FC } from "react";
-import { TIngredient } from "../../types";
 import styles from "./ingredient-details.module.css";
+import { useSelector } from "react-redux";
+import { TRootState } from "../../services/store";
+import { TIngredient } from "../../types";
 
-type TIngredientDetailsProps = {
-  ingredient: TIngredient;
-};
-const IngredientDetails: FC<TIngredientDetailsProps> = ({ ingredient }) => {
+const IngredientDetails = () => {
+  const ingredient = useSelector(
+    (store: TRootState) => store.details
+  ) as TIngredient;
+
   return (
     <>
       <div className="pl-25 pr-25 text-center">

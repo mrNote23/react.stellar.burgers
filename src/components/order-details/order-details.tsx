@@ -1,16 +1,16 @@
-import { FC } from "react";
-import { TOrder } from "../../types";
 import ready from "../../images/ready.png";
 import styles from "./order-details.module.css";
+import { useSelector } from "react-redux";
+import { TRootState } from "../../services/store";
 
-type TOrderDetailsProps = { order: TOrder | null };
-const OrderDetails: FC<TOrderDetailsProps> = ({ order }) => {
+const OrderDetails = () => {
+  const order = useSelector((store: TRootState) => store.order);
   return (
     <>
       {order !== null && order.success ? (
         <div className="pl-5 pr-5 text-center">
           <p className={`${styles.orderId} text text_type_digits-large mb-1`}>
-            {order!.order!.number}
+            {order.order.number}
           </p>
           <p className="text text_type_main-medium mb-5">
             идентификатор заказа

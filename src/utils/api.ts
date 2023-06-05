@@ -1,5 +1,3 @@
-import { TCreateOrder } from "../types";
-
 const API = "https://norma.nomoreparties.space/api";
 
 type TResponse = {
@@ -31,13 +29,13 @@ class _Api {
     return this._request("/ingredients");
   };
 
-  public createOrder = (order: TCreateOrder) => {
+  public createOrder = (ingredients: string[]) => {
     return this._request("/orders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(order),
+      body: JSON.stringify({ ingredients }),
     });
   };
 }

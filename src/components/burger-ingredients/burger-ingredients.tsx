@@ -1,12 +1,14 @@
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { TIngredient } from "../../types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredientsItem from "./burger-ingredients-item/burger-ingredients-item";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import styles from "./burger-ingredients.module.css";
-import { IngredientsContext } from "../../services/ingredients-context";
 import { useModal } from "../../hooks/use-modal";
+import { useDispatch, useSelector } from "react-redux";
+import { TRootState } from "../../services/store";
+import { detailsSet } from "../../services/reducers/details";
 
 const BUN_TYPE = "bun";
 const MAIN_TYPE = "main";
@@ -17,13 +19,15 @@ const MAIN = { type: MAIN_TYPE, scroll: true };
 const SAUCE = { type: SAUCE_TYPE, scroll: true };
 
 const BurgerIngredients = () => {
-  const { data } = useContext(IngredientsContext);
+  const ingredients = useSelector(
+    (store: TRootState) => store.ingredients.ingredients
+  );
+
+  const dispatch = useDispatch();
 
   const [currentTab, setCurrentTab] = useState(BUN);
 
   const { isModalOpen, openModal, closeModal } = useModal(false);
-
-  const currentIngredient = useRef<TIngredient | null>(null);
 
   const bunTarget = useRef<HTMLParagraphElement>(null);
   const mainTarget = useRef<HTMLParagraphElement>(null);
@@ -95,20 +99,20 @@ const BurgerIngredients = () => {
   }, []);
 
   const buns = useMemo(
-    () => data.filter((elm: TIngredient) => elm.type === BUN_TYPE),
-    [data]
+    () => ingredients.filter((elm: TIngredient) => elm.type === BUN_TYPE),
+    [ingredients]
   );
   const sauces = useMemo(
-    () => data.filter((elm: TIngredient) => elm.type === SAUCE_TYPE),
-    [data]
+    () => ingredients.filter((elm: TIngredient) => elm.type === SAUCE_TYPE),
+    [ingredients]
   );
   const mains = useMemo(
-    () => data.filter((elm) => elm.type === MAIN_TYPE),
-    [data]
+    () => ingredients.filter((elm: TIngredient) => elm.type === MAIN_TYPE),
+    [ingredients]
   );
 
   const showIngredientDetails = (ingredient: TIngredient) => {
-    currentIngredient.current = ingredient;
+    dispatch(detailsSet(ingredient));
     openModal();
   };
 
@@ -180,9 +184,7 @@ const BurgerIngredients = () => {
       </div>
       {isModalOpen && (
         <Modal onClose={closeModal} title="Детали ингредиента">
-          {currentIngredient.current && (
-            <IngredientDetails ingredient={currentIngredient.current} />
-          )}
+          <IngredientDetails />
         </Modal>
       )}
     </section>

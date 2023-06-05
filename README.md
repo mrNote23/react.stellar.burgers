@@ -18,6 +18,8 @@
 - CSS
 - JavaScript
 - React
+- React-redux/toolkit
+- React-dnd
 
 ## Установка и запуск
 

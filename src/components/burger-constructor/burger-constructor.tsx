@@ -1,7 +1,7 @@
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useDrop } from "react-dnd";
 import { nanoid } from "nanoid";
-import { TBurger, TIngredient, TOrder } from "../../types";
+import { TBurger, TIngredient } from "../../types";
 import {
   ConstructorElement,
   CurrencyIcon,
@@ -11,25 +11,31 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import styles from "./burger-constructor.module.css";
 import BurgerConstructorItem from "./burger-constructor-item/burger-constructor-item";
-import Api from "../../utils/api";
-import { IngredientsContext } from "../../services/ingredients-context";
 import { useModal } from "../../hooks/use-modal";
-
-const emptyBurger = {
-  bun: null,
-  filling: [],
-};
+import { useDispatch, useSelector } from "react-redux";
+import {
+  burgerAddIngredient,
+  burgerClearIngredients,
+  burgerRemoveIngredient,
+  burgerSwapIngredients,
+} from "../../services/reducers/burger";
+import {
+  ingredientCounterDec,
+  ingredientCounterInc,
+  ingredientsCountersReset,
+} from "../../services/reducers/ingredients";
+import { orderCreate } from "../../services/reducers/order";
+import { TDispatch, TRootState } from "../../services/store";
 
 const BurgerConstructor = () => {
-  const [burger, setBurger] = useState<TBurger>(emptyBurger);
-  const [order, setOrder] = useState<TOrder | null>(null);
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch<TDispatch>();
+
+  const burger: TBurger = useSelector((store: TRootState) => store.burger);
+  const loading = useSelector((store: TRootState) => store.order.loading);
 
   const { isModalOpen, openModal, closeModal } = useModal(false);
 
   const scrolledWindow = useRef<HTMLDivElement>(null);
-
-  const { dispatchIngredients } = useContext(IngredientsContext);
 
   useEffect(() => {
     onResize();
@@ -50,34 +56,13 @@ const BurgerConstructor = () => {
   const [, dropIngredient] = useDrop({
     accept: "ingredient",
     drop: (item: { [key: string]: TIngredient }) => {
-      addIngredient({ ...item.ingredient, id: nanoid() });
+      if (item.ingredient.type === "bun" && burger.bun) {
+        dispatch(ingredientCounterDec(burger.bun._id));
+      }
+      dispatch(burgerAddIngredient({ ...item.ingredient, id: nanoid() }));
+      dispatch(ingredientCounterInc(item.ingredient._id));
     },
   });
-
-  const addIngredient = (ingredient: TIngredient) => {
-    if (ingredient.type === "bun") {
-      if (burger.bun) {
-        dispatchIngredients({
-          type: "remove",
-          payload: { id: burger.bun._id, quantity: 2 },
-        });
-      }
-      dispatchIngredients({
-        type: "add",
-        payload: { id: ingredient._id, quantity: 2 },
-      });
-      setBurger((prev) => ({ ...prev, bun: { ...ingredient } }));
-    } else {
-      dispatchIngredients({
-        type: "add",
-        payload: { id: ingredient._id, quantity: 1 },
-      });
-      setBurger((prev) => ({
-        ...prev,
-        filling: [...burger.filling, ingredient],
-      }));
-    }
-  };
 
   const burgerEmpty = useMemo(
     () => !(burger.bun !== null || burger.filling.length > 0),
@@ -96,39 +81,22 @@ const BurgerConstructor = () => {
   );
 
   const deleteIngredient = (ingredientId: string, tmpId: string) => {
-    dispatchIngredients({
-      type: "remove",
-      payload: { id: ingredientId, quantity: 1 },
-    });
-    setBurger({
-      ...burger,
-      filling: burger.filling.filter((item) => item.id !== tmpId),
-    });
+    dispatch(burgerRemoveIngredient(tmpId));
+    dispatch(ingredientCounterDec(ingredientId));
   };
 
   const swapIngredients = (first: number, second: number) => {
-    const tmp = [...burger.filling];
-    [tmp[first], tmp[second]] = [tmp[second], tmp[first]];
-    setBurger({ ...burger, filling: [...tmp] });
+    dispatch(burgerSwapIngredients({ first, second }));
   };
 
   const createOrder = () => {
-    setLoading(true);
     let tmp = burger.bun ? [burger.bun._id, burger.bun._id] : [];
     tmp = [...tmp, ...burger.filling.map((item) => item._id)];
-    Api.createOrder({ ingredients: tmp })
-      .then((data) => {
-        setOrder(data as TOrder);
-        setBurger(emptyBurger);
-        openModal();
-        setLoading(false);
-        dispatchIngredients({ type: "reset" });
-      })
-      .catch(() => {
-        setOrder({ success: false });
-        openModal();
-        setLoading(false);
-      });
+
+    dispatch(orderCreate(tmp));
+    dispatch(burgerClearIngredients());
+    dispatch(ingredientsCountersReset());
+    openModal();
   };
 
   return (
@@ -188,9 +156,9 @@ const BurgerConstructor = () => {
           </Button>
         </div>
       )}
-      {isModalOpen && (
+      {isModalOpen && !loading && (
         <Modal onClose={closeModal}>
-          <OrderDetails order={order} />
+          <OrderDetails />
         </Modal>
       )}
     </section>
