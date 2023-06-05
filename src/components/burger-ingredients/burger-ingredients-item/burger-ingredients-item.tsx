@@ -1,14 +1,22 @@
+import { FC } from "react";
+import { Link } from "react-router-dom";
+import { useDrag } from "react-dnd";
+import { TIngredient } from "../../../types";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./ingredient.module.css";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import { ingredientType } from "../../../utils/main-prop-types";
-import { useDrag } from "react-dnd";
+import styles from "./burger-ingredients-item.module.css";
 
-const Ingredient = ({ ingredient, onClick }) => {
+type TBurgerIngredientsItemProps = {
+  ingredient: TIngredient;
+  onClick: () => void;
+};
+
+const BurgerIngredientsItem: FC<TBurgerIngredientsItemProps> = ({
+  ingredient,
+  onClick,
+}) => {
   const [, dragIngredient] = useDrag({
     type: "ingredient",
     item: {
@@ -19,7 +27,9 @@ const Ingredient = ({ ingredient, onClick }) => {
   return (
     <div className={styles.item} onClick={onClick} ref={dragIngredient}>
       <Link to="/">
-        <Counter count={1} size="default" extraClass="m-5" />
+        {ingredient.include ? (
+          <Counter count={ingredient.include} size="default" extraClass="m-5" />
+        ) : null}
         <img
           src={ingredient.image}
           alt={ingredient.name}
@@ -39,9 +49,4 @@ const Ingredient = ({ ingredient, onClick }) => {
   );
 };
 
-Ingredient.propTypes = {
-  ingredient: PropTypes.shape(ingredientType).isRequired,
-  onClick: PropTypes.func.isRequired,
-};
-
-export default Ingredient;
+export default BurgerIngredientsItem;

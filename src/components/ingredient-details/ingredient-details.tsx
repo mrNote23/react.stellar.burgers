@@ -1,8 +1,13 @@
 import styles from "./ingredient-details.module.css";
-import PropTypes from "prop-types";
-import { ingredientType } from "../../utils/main-prop-types";
+import { useSelector } from "react-redux";
+import { TRootState } from "../../services/store";
+import { TIngredient } from "../../types";
 
-const IngredientDetails = ({ ingredient }) => {
+const IngredientDetails = () => {
+  const ingredient = useSelector(
+    (store: TRootState) => store.details
+  ) as TIngredient;
+
   return (
     <>
       <div className="pl-25 pr-25 text-center">
@@ -49,10 +54,6 @@ const IngredientDetails = ({ ingredient }) => {
       </div>
     </>
   );
-};
-
-IngredientDetails.propTypes = {
-  ingredient: PropTypes.shape(ingredientType).isRequired,
 };
 
 export default IngredientDetails;
