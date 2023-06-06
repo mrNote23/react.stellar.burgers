@@ -1,15 +1,10 @@
 import { useEffect } from "react";
-import { BrowserRouter } from "react-router-dom";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import AppHeader from "../app-header/app-header";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import Error from "../error/error";
-import Loader from "../loader/loader";
+import { BrowserRouter, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { TDispatch, TRootState } from "../../services/store";
 import { loadIngredients } from "../../services/reducers/ingredients";
+import Router from "../router/router";
+import Loader from "../loader/loader";
 
 const App = () => {
   const { ingredients, loading, error } = useSelector(
@@ -29,21 +24,9 @@ const App = () => {
   }
 
   return (
-    <>
-      {!error ? (
-        <BrowserRouter>
-          <AppHeader />
-          <DndProvider backend={HTML5Backend}>
-            <main className="container">
-              <BurgerIngredients />
-              <BurgerConstructor />
-            </main>
-          </DndProvider>
-        </BrowserRouter>
-      ) : (
-        <Error />
-      )}
-    </>
+    <BrowserRouter>
+      {!error ? <Router /> : <Navigate to="/error" />}
+    </BrowserRouter>
   );
 };
 
