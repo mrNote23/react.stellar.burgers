@@ -17,7 +17,7 @@ const BurgerIngredientsItem: FC<TBurgerIngredientsItemProps> = ({
   ingredient,
   onClick,
 }) => {
-  const [, dragIngredient] = useDrag({
+  const [, dragIngredient, dragPreview] = useDrag({
     type: "ingredient",
     item: {
       ingredient,
@@ -31,6 +31,7 @@ const BurgerIngredientsItem: FC<TBurgerIngredientsItemProps> = ({
           <Counter count={ingredient.include} size="default" extraClass="m-5" />
         ) : null}
         <img
+          ref={dragPreview}
           src={ingredient.image}
           alt={ingredient.name}
           className="ml-4 mr-4"

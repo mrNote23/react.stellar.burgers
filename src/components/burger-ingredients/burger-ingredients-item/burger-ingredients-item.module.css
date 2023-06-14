@@ -7,6 +7,14 @@
 	padding: 16px;
 }
 
+.item img {
+	transition: transform 0.3s;
+}
+
+.item img:hover {
+	transform: scale(1.15);
+}
+
 .price {
 	display: flex;
 	align-items: center;
