@@ -1,4 +1,4 @@
-import { FC, lazy, Suspense } from "react";
+import { FC, Fragment, lazy, Suspense } from "react";
 import MainLayout from "../../layouts/main-layout";
 import BlankLayout from "../../layouts/blank-layout";
 import PageError from "../../pages/page-error";
@@ -12,6 +12,10 @@ const Loadable = (Component: FC) => () =>
   );
 
 const PageHome = Loadable(lazy(() => import("../../pages/page-home")));
+const PageIngredientDetails = Loadable(
+  lazy(() => import("../../pages/page-ingredient-details"))
+);
+
 const PageProfile = Loadable(
   lazy(() => import("../../pages/profile/page-profile"))
 );
@@ -29,6 +33,16 @@ const routes = [
   {
     path: "/",
     element: <PageHome />,
+  },
+  {
+    path: "/ingredients/:id",
+    element: <PageIngredientDetails />,
+  },
+  {
+    path: "/ingredients/:id",
+    layout: "none",
+    element: <PageIngredientDetails />,
+    modal: true,
   },
   {
     path: "/profile",
@@ -71,14 +85,6 @@ const routes = [
     element: <PageResetPassword />,
   },
   {
-    path: "/",
-    element: <PageHome />,
-  },
-  {
-    path: "/",
-    element: <PageHome />,
-  },
-  {
     path: "*",
     layout: "blank",
     element: <PageError />,
@@ -89,6 +95,7 @@ const getRoutes = () => {
   const layouts: { [key: string]: FC } = {
     blank: BlankLayout,
     main: MainLayout,
+    none: Fragment,
   };
   return routes.map((route) => {
     const Layout = route.layout ? layouts[route.layout] : MainLayout;

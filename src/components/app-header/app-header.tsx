@@ -22,8 +22,6 @@ const AppHeader = () => {
     }
   }, [location]);
 
-  console.log(currentPath());
-
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
