@@ -26,6 +26,7 @@ const BurgerIngredientsItem: FC<TBurgerIngredientsItemProps> = ({
   return (
     <div className={styles.item} ref={dragIngredient}>
       <Link
+        className="text_color_primary"
         to={`/ingredients/${ingredient._id}`}
         state={{ prevLocation: location }}
       >
