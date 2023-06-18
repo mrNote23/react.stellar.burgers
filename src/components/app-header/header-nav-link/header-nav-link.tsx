@@ -8,7 +8,7 @@ const HeaderNavLink: FC<{ path: string; name: string }> = ({ path, name }) => {
   const activePath = useMemo(() => {
     if (path === location.pathname) {
       return true;
-    } else return !!location.pathname.match(`${path}/gi`);
+    } else return `_${location.pathname}`.indexOf(path) > 0 && path !== "/";
   }, [location.pathname, path]);
 
   return (
