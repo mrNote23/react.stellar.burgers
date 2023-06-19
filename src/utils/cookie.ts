@@ -40,7 +40,10 @@ export const setCookie = (
 
 export const getCookie = (name: string) => {
   function escape(s: string) {
+<<<<<<< HEAD
     // return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, "\\$1");
+=======
+>>>>>>> sprint-3/step-1
     return s.replace(/([.*+?^$(){}|[\]/\\])/g, "\\$1");
   }
   let match = document.cookie.match(
