@@ -40,7 +40,8 @@ export const setCookie = (
 
 export const getCookie = (name: string) => {
   function escape(s: string) {
-    return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, "\\$1");
+    // return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, "\\$1");
+    return s.replace(/([.*+?^$(){}|[\]/\\])/g, "\\$1");
   }
   let match = document.cookie.match(
     RegExp("(?:^|;\\s*)" + escape(name) + "=([^;]*)")
