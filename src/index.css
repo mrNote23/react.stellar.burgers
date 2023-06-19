@@ -10,16 +10,20 @@ body,
 
 *::-webkit-scrollbar {
   width: 6px;
-  background-color: #131316;
+  background-color: var(--background-alt);
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #8585AD;
+  background-color: var(--text-inactive-color);
 }
 
-a, a:hover {
-  color: inherit;
+a {
+  color: var(--colors-interface-accent);
   text-decoration: none;
+}
+
+a:hover {
+  color: var(--text-primary-color);
 }
 
 #root {
