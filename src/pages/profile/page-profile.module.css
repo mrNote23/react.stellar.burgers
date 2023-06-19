@@ -1,0 +1,21 @@
+.section_menu {
+	margin-top: 70px;
+	width: 400px;
+	margin-left: 40px;
+	display: flex;
+	flex-direction: column;
+}
+
+.section_content {
+	margin-top: 70px;
+	width: 100%;
+}
+.menu {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.menu li:not(:first-child) {
+	margin: 30px 0;
+}
