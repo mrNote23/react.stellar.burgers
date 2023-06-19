@@ -1,5 +1,6 @@
 import { Routes, useLocation, Route } from "react-router-dom";
 import getRoutes from "./routes";
+import { Fragment } from "react";
 
 const Router = () => {
   const location = useLocation();
@@ -7,7 +8,7 @@ const Router = () => {
   const prevLocation = location.state && location.state.prevLocation;
 
   return (
-    <>
+    <Fragment>
       <Routes location={prevLocation || location}>
         {getRoutes().map(
           (item, index) =>
@@ -30,7 +31,7 @@ const Router = () => {
           )}
         </Routes>
       )}
-    </>
+    </Fragment>
   );
 };
 

@@ -1,7 +1,7 @@
 import styles from "./ingredient-details.module.css";
 import { useSelector } from "react-redux";
 import { TRootState } from "../../services/store";
-import { TIngredient } from "../../types";
+import { TIngredient } from "../../config/types";
 
 const IngredientDetails = () => {
   const ingredient = useSelector(

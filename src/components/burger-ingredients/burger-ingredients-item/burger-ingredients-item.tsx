@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useDrag } from "react-dnd";
-import { TIngredient } from "../../../types";
+import { TIngredient } from "../../../config/types";
 import {
   Counter,
   CurrencyIcon,

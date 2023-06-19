@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { TOrder } from "../../types";
+import { TOrder } from "../../config/types";
 import Api from "../../utils/api";
 
 export const orderCreate = createAsyncThunk(

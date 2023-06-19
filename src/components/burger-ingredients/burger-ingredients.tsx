@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { TIngredient } from "../../types";
+import { TIngredient } from "../../config/types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredientsItem from "./burger-ingredients-item/burger-ingredients-item";
 import styles from "./burger-ingredients.module.css";
@@ -20,8 +20,6 @@ const BurgerIngredients = () => {
   );
 
   const [currentTab, setCurrentTab] = useState(BUN);
-
-  // const { isModalOpen, openModal, closeModal } = useModal(false);
 
   const bunTarget = useRef<HTMLParagraphElement>(null);
   const mainTarget = useRef<HTMLParagraphElement>(null);
