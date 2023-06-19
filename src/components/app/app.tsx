@@ -1,33 +1,30 @@
 import { useEffect } from "react";
-import { BrowserRouter, Navigate } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { TDispatch, TRootState } from "../../services/store";
 import { loadIngredients } from "../../services/reducers/ingredients";
 import Router from "../router/router";
 import Loader from "../loader/loader";
+import PageError from "../../pages/page-error";
+import { userAuthorize } from "../../services/reducers/user";
 
 const App = () => {
-  const { ingredients, loading, error } = useSelector(
+  const { loading, error } = useSelector(
     (store: TRootState) => store.ingredients
   );
 
+  const { authProcess } = useSelector((store: TRootState) => store.user);
   const dispatch = useDispatch<TDispatch>();
 
-  useEffect(() => {}, [ingredients, loading, error]);
-
   useEffect(() => {
+    dispatch(userAuthorize());
     dispatch(loadIngredients());
   }, [dispatch]);
 
-  if (loading) {
+  if (loading || authProcess) {
     return <Loader />;
   }
-
-  return (
-    <BrowserRouter>
-      {!error ? <Router /> : <Navigate to="/error" />}
-    </BrowserRouter>
-  );
+  return <BrowserRouter>{!error ? <Router /> : <PageError />}</BrowserRouter>;
 };
 
 export default App;
