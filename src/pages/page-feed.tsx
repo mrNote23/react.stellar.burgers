@@ -1,5 +1,5 @@
 const PageFeed = () => {
-  return <h1>PageFeed</h1>;
+  return null;
 };
 
 export default PageFeed;
