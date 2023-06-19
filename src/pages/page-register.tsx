@@ -10,6 +10,7 @@ import {
   PasswordInput,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { PATH } from "../config/constants";
 
 const PageRegister = () => {
   const { form, onChange, resetForm } = useForm({
@@ -27,7 +28,7 @@ const PageRegister = () => {
 
   useEffect(
     () => {
-      success && navigate("/");
+      success && navigate(PATH.HOME);
       if (error !== "") {
         resetForm();
       }
@@ -79,7 +80,7 @@ const PageRegister = () => {
 
         <p className="text text_type_main-default text_color_inactive mt-15">
           Уже зарегистрированы?&nbsp;
-          <Link to="/login">Войти</Link>
+          <Link to={PATH.LOGIN}>Войти</Link>
         </p>
       </form>
     </Fragment>

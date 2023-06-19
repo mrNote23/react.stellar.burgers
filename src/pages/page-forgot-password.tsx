@@ -10,16 +10,17 @@ import { useSelector } from "react-redux";
 import { TRootState } from "../services/store";
 import { setCookie } from "../utils/cookie";
 import {
+  PATH,
   RESET_PASSWORD_COOKIE_NAME,
   RESET_PASSWORD_COOKIE_OPTIONS,
 } from "../config/constants";
 
 const PageForgotPassword = () => {
   const { authorized } = useSelector((store: TRootState) => store.user);
-  const { form, onChange, resetForm } = useForm({ email: "" });
+  const { form, onChange } = useForm({ email: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -32,7 +33,7 @@ const PageForgotPassword = () => {
           true,
           RESET_PASSWORD_COOKIE_OPTIONS
         );
-        navigation("/reset-password", { replace: true });
+        navigate(PATH.RESET_PASSWORD, { replace: true });
       })
       .catch((err) => {
         setLoading(false);
@@ -43,7 +44,7 @@ const PageForgotPassword = () => {
   return (
     <Fragment>
       {authorized ? (
-        <Navigate to="/" />
+        <Navigate to={PATH.HOME} />
       ) : (
         <form
           className="d-flex items-center justify-center direction-column w-100"
@@ -75,7 +76,7 @@ const PageForgotPassword = () => {
 
           <p className="text text_type_main-default text_color_inactive mt-15">
             Вспомнили пароль?&nbsp;
-            <Link to="/login">Войти</Link>
+            <Link to={PATH.LOGIN}>Войти</Link>
           </p>
         </form>
       )}

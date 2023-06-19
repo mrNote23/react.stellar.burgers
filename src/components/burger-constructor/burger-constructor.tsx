@@ -28,6 +28,7 @@ import {
 import { orderClear, orderCreate } from "../../services/reducers/order";
 import { TDispatch, TRootState } from "../../services/store";
 import { useNavigate } from "react-router-dom";
+import { PATH } from "../../config/constants";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch<TDispatch>();
@@ -57,7 +58,7 @@ const BurgerConstructor = () => {
       dispatch(ingredientsCountersReset());
       !isModalOpen && openModal();
     }
-  }, [success, dispatch]);
+  }, [success, dispatch, isModalOpen, openModal]);
 
   const onResize = () => {
     const maxHeight = Math.ceil((window.innerHeight - 600) / 96) * 96;
@@ -110,7 +111,7 @@ const BurgerConstructor = () => {
       dispatch(orderCreate(tmp));
       openModal();
     } else {
-      navigate("/login");
+      navigate(PATH.LOGIN);
     }
   };
 

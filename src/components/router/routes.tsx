@@ -6,6 +6,7 @@ import Loader from "../loader/loader";
 import { useSelector } from "react-redux";
 import { TRootState } from "../../services/store";
 import { Navigate, useLocation } from "react-router-dom";
+import { PATH } from "../../config/constants";
 
 const Loadable = (Component: FC) => () =>
   (
@@ -34,59 +35,64 @@ const PageResetPassword = Loadable(
 
 const routes = [
   {
-    path: "/",
+    path: PATH.HOME,
     element: <PageHome />,
   },
   {
-    path: "/ingredients/:id",
+    path: `${PATH.INGREDIENTS}/:id`,
     element: <PageIngredientDetails />,
   },
   {
-    path: "/ingredients/:id",
+    path: `${PATH.INGREDIENTS}/:id`,
     layout: "none",
     element: <PageIngredientDetails />,
     modal: true,
   },
   {
-    path: "/profile",
+    path: PATH.PROFILE,
     element: <PageProfile />,
     protected: true,
   },
   {
-    path: "/profile/orders",
+    path: PATH.PROFILE_ORDERS,
     element: <PageProfile />,
     protected: true,
   },
   {
-    path: "/profile/orders/:id",
+    path: `${PATH.PROFILE_ORDERS}/:id`,
     element: <PageProfile />,
     protected: true,
   },
   {
-    path: "/feed",
+    path: PATH.FEED,
     element: <PageFeed />,
     protected: true,
   },
   {
-    path: "/feed/:id",
+    path: `${PATH.FEED}/:id`,
     element: <PageFeed />,
     protected: true,
   },
   {
-    path: "/login",
+    path: PATH.LOGIN,
     element: <PageLogin />,
   },
   {
-    path: "/register",
+    path: PATH.REGISTER,
     element: <PageRegister />,
   },
   {
-    path: "/forgot-password",
+    path: PATH.FORGOT_PASSWORD,
     element: <PageForgotPassword />,
   },
   {
-    path: "/reset-password",
+    path: PATH.RESET_PASSWORD,
     element: <PageResetPassword />,
+  },
+  {
+    path: PATH.ERROR,
+    layout: "blank",
+    element: <PageError />,
   },
   {
     path: "*",
@@ -103,7 +109,11 @@ const ProtectedRouteElement: FC<{ children?: ReactNode }> = ({ children }) => {
     return <Fragment>{children}</Fragment>;
   } else {
     return (
-      <Navigate to="/login" replace state={{ redirect: location.pathname }} />
+      <Navigate
+        to={PATH.LOGIN}
+        replace
+        state={{ redirect: location.pathname }}
+      />
     );
   }
 };

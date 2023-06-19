@@ -10,14 +10,14 @@ import Api from "../utils/api";
 import { useSelector } from "react-redux";
 import { TRootState } from "../services/store";
 import { deleteCookie, getCookie } from "../utils/cookie";
-import { RESET_PASSWORD_COOKIE_NAME } from "../config/constants";
+import { PATH, RESET_PASSWORD_COOKIE_NAME } from "../config/constants";
 
 const PageResetPassword = () => {
   const { authorized } = useSelector((store: TRootState) => store.user);
   const { form, onChange, resetForm } = useForm({ token: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -26,7 +26,7 @@ const PageResetPassword = () => {
       .then(() => {
         setLoading(false);
         deleteCookie(RESET_PASSWORD_COOKIE_NAME);
-        navigation("/login", { replace: true });
+        navigate(PATH.LOGIN, { replace: true });
       })
       .catch((err) => {
         setLoading(false);
@@ -38,7 +38,7 @@ const PageResetPassword = () => {
   return (
     <Fragment>
       {authorized || !getCookie(RESET_PASSWORD_COOKIE_NAME) ? (
-        <Navigate to="/" />
+        <Navigate to={PATH.HOME} />
       ) : (
         <form
           className="d-flex items-center justify-center direction-column w-100"
@@ -78,7 +78,7 @@ const PageResetPassword = () => {
 
           <p className="text text_type_main-default text_color_inactive mt-15">
             Вспомнили пароль?&nbsp;
-            <Link to="/login">Войти</Link>
+            <Link to={PATH.LOGIN}>Войти</Link>
           </p>
         </form>
       )}

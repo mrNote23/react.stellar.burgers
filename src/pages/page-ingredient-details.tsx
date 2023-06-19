@@ -6,6 +6,7 @@ import { detailsSet } from "../services/reducers/details";
 import { useModal } from "../hooks/use-modal";
 import Modal from "../components/modal/modal";
 import IngredientDetails from "../components/ingredient-details/ingredient-details";
+import { PATH } from "../config/constants";
 
 const PageIngredientDetails = () => {
   const location = useLocation();
@@ -20,7 +21,7 @@ const PageIngredientDetails = () => {
   useEffect(() => {
     const ingredient = ingredients.filter((item) => item._id === params.id);
     if (!ingredient.length) {
-      navigate("/error");
+      navigate(PATH.ERROR);
     } else {
       dispatch(detailsSet(ingredient[0]));
       openModal();

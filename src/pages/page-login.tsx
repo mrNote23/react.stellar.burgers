@@ -9,6 +9,7 @@ import { useForm } from "../hooks/use-form";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../services/reducers/user";
 import { TDispatch, TRootState } from "../services/store";
+import { PATH } from "../config/constants";
 
 const PageLogin = () => {
   const { form, onChange, resetForm } = useForm({ email: "", password: "" });
@@ -75,11 +76,11 @@ const PageLogin = () => {
 
         <p className="text text_type_main-default text_color_inactive mt-15">
           Вы - новый пользователь?&nbsp;
-          <Link to="/register">Зарегистрироваться</Link>
+          <Link to={PATH.REGISTER}>Зарегистрироваться</Link>
         </p>
         <p className="text text_type_main-default text_color_inactive mt-5">
           Забыли пароль?&nbsp;
-          <Link to="/forgot-password">Восстановить пароль</Link>
+          <Link to={PATH.FORGOT_PASSWORD}>Восстановить пароль</Link>
         </p>
       </form>
     </Fragment>

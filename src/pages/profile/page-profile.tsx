@@ -1,4 +1,4 @@
-import { Fragment, useCallback } from "react";
+import { Fragment } from "react";
 import styles from "./page-profile.module.css";
 import { NavLink, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -6,6 +6,7 @@ import { userLogout } from "../../services/reducers/user";
 import ProfileDetails from "./profile-details/profile-details";
 import ProfileOrders from "./profile-orders/profile-orders";
 import { TDispatch } from "../../services/store";
+import { PATH } from "../../config/constants";
 
 const PageProfile = () => {
   const dispatch = useDispatch<TDispatch>();
@@ -15,7 +16,7 @@ const PageProfile = () => {
     dispatch(userLogout());
   };
 
-  const isOrders = location.pathname.indexOf("/orders") > 0;
+  const isOrders = location.pathname.indexOf(PATH.ORDERS) > 0;
 
   return (
     <Fragment>
@@ -27,7 +28,7 @@ const PageProfile = () => {
                 className={`text text_type_main-default text_color_${
                   !isOrders ? "primary" : "inactive"
                 }`}
-                to="/profile"
+                to={PATH.PROFILE}
               >
                 Профиль
               </NavLink>
@@ -37,7 +38,7 @@ const PageProfile = () => {
                 className={`text text_type_main-default text_color_${
                   isOrders ? "primary" : "inactive"
                 }`}
-                to="/profile/orders"
+                to={PATH.PROFILE_ORDERS}
               >
                 История заказов
               </NavLink>
