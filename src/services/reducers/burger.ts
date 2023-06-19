@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { TBurger, TIngredient } from "../../types";
+import { TBurger, TIngredient } from "../../config/types";
 
 const initialState: TBurger = {
   bun: null,
@@ -10,6 +10,9 @@ export const burgerSlice = createSlice({
   name: "burger",
   initialState,
   reducers: {
+    burgerLock: (state) => {
+      state.filling = state.filling.map((item) => ({ ...item, locked: true }));
+    },
     burgerAddIngredient: (state, action) => {
       const ingredient = action.payload;
       if (ingredient.type === "bun") {
@@ -42,5 +45,6 @@ export const {
   burgerRemoveIngredient,
   burgerClearIngredients,
   burgerSwapIngredients,
+  burgerLock,
 } = burgerSlice.actions;
 export default burgerSlice.reducer;

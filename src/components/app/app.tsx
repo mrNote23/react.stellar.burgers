@@ -1,50 +1,30 @@
 import { useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import AppHeader from "../app-header/app-header";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import Error from "../error/error";
-import Loader from "../loader/loader";
 import { useDispatch, useSelector } from "react-redux";
 import { TDispatch, TRootState } from "../../services/store";
 import { loadIngredients } from "../../services/reducers/ingredients";
+import Router from "../router/router";
+import Loader from "../loader/loader";
+import PageError from "../../pages/page-error";
+import { userAuthorize } from "../../services/reducers/user";
 
 const App = () => {
-  const { ingredients, loading, error } = useSelector(
+  const { loading, error } = useSelector(
     (store: TRootState) => store.ingredients
   );
 
+  const { authProcess } = useSelector((store: TRootState) => store.user);
   const dispatch = useDispatch<TDispatch>();
 
-  useEffect(() => {}, [ingredients, loading, error]);
-
   useEffect(() => {
+    dispatch(userAuthorize());
     dispatch(loadIngredients());
   }, [dispatch]);
 
-  if (loading) {
+  if (loading || authProcess) {
     return <Loader />;
   }
-
-  return (
-    <>
-      {!error ? (
-        <BrowserRouter>
-          <AppHeader />
-          <DndProvider backend={HTML5Backend}>
-            <main className="container">
-              <BurgerIngredients />
-              <BurgerConstructor />
-            </main>
-          </DndProvider>
-        </BrowserRouter>
-      ) : (
-        <Error />
-      )}
-    </>
-  );
+  return <BrowserRouter>{!error ? <Router /> : <PageError />}</BrowserRouter>;
 };
 
 export default App;

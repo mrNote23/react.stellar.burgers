@@ -1,4 +1,4 @@
-import { TIngredient } from "../../types";
+import { TIngredient } from "../../config/types";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: TIngredient | {} = {};

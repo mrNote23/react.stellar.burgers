@@ -4,7 +4,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "../burger-constructor.module.css";
 import { FC, useRef } from "react";
-import { TIngredient } from "../../../types";
+import { TIngredient } from "../../../config/types";
 import { useDrag, useDrop } from "react-dnd";
 
 type TBurgerConstructorItemProps = {
@@ -46,6 +46,7 @@ const BurgerConstructorItem: FC<TBurgerConstructorItemProps> = ({
         <DragIcon type="primary" />
       </div>
       <ConstructorElement
+        isLocked={ingredient.locked}
         text={ingredient.name}
         price={ingredient.price}
         thumbnail={ingredient.image}

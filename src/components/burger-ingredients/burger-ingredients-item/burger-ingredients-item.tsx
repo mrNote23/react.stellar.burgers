@@ -1,7 +1,7 @@
 import { FC } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useDrag } from "react-dnd";
-import { TIngredient } from "../../../types";
+import { TIngredient } from "../../../config/types";
 import {
   Counter,
   CurrencyIcon,
@@ -10,14 +10,13 @@ import styles from "./burger-ingredients-item.module.css";
 
 type TBurgerIngredientsItemProps = {
   ingredient: TIngredient;
-  onClick: () => void;
 };
 
 const BurgerIngredientsItem: FC<TBurgerIngredientsItemProps> = ({
   ingredient,
-  onClick,
 }) => {
-  const [, dragIngredient] = useDrag({
+  const location = useLocation();
+  const [, dragIngredient, dragPreview] = useDrag({
     type: "ingredient",
     item: {
       ingredient,
@@ -25,12 +24,17 @@ const BurgerIngredientsItem: FC<TBurgerIngredientsItemProps> = ({
   });
 
   return (
-    <div className={styles.item} onClick={onClick} ref={dragIngredient}>
-      <Link to="/">
+    <div className={styles.item} ref={dragIngredient}>
+      <Link
+        className="text_color_primary"
+        to={`/ingredients/${ingredient._id}`}
+        state={{ prevLocation: location }}
+      >
         {ingredient.include ? (
           <Counter count={ingredient.include} size="default" extraClass="m-5" />
         ) : null}
         <img
+          ref={dragPreview}
           src={ingredient.image}
           alt={ingredient.name}
           className="ml-4 mr-4"

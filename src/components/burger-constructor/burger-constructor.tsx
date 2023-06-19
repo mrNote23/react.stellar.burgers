@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useDrop } from "react-dnd";
 import { nanoid } from "nanoid";
-import { TBurger, TIngredient } from "../../types";
+import { TBurger, TIngredient } from "../../config/types";
 import {
   ConstructorElement,
   CurrencyIcon,
@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   burgerAddIngredient,
   burgerClearIngredients,
+  burgerLock,
   burgerRemoveIngredient,
   burgerSwapIngredients,
 } from "../../services/reducers/burger";
@@ -24,18 +25,23 @@ import {
   ingredientCounterInc,
   ingredientsCountersReset,
 } from "../../services/reducers/ingredients";
-import { orderCreate } from "../../services/reducers/order";
+import { orderClear, orderCreate } from "../../services/reducers/order";
 import { TDispatch, TRootState } from "../../services/store";
+import { useNavigate } from "react-router-dom";
+import { PATH } from "../../config/constants";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch<TDispatch>();
 
   const burger: TBurger = useSelector((store: TRootState) => store.burger);
-  const loading = useSelector((store: TRootState) => store.order.loading);
+  const { loading, success } = useSelector((store: TRootState) => store.order);
+  const { authorized } = useSelector((store: TRootState) => store.user);
 
   const { isModalOpen, openModal, closeModal } = useModal(false);
 
   const scrolledWindow = useRef<HTMLDivElement>(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     onResize();
@@ -45,6 +51,14 @@ const BurgerConstructor = () => {
       window.removeEventListener("resize", onResize);
     };
   }, []);
+
+  useEffect(() => {
+    if (success) {
+      dispatch(burgerClearIngredients());
+      dispatch(ingredientsCountersReset());
+      !isModalOpen && openModal();
+    }
+  }, [success, dispatch, isModalOpen, openModal]);
 
   const onResize = () => {
     const maxHeight = Math.ceil((window.innerHeight - 600) / 96) * 96;
@@ -90,13 +104,15 @@ const BurgerConstructor = () => {
   };
 
   const createOrder = () => {
-    let tmp = burger.bun ? [burger.bun._id, burger.bun._id] : [];
-    tmp = [...tmp, ...burger.filling.map((item) => item._id)];
-
-    dispatch(orderCreate(tmp));
-    dispatch(burgerClearIngredients());
-    dispatch(ingredientsCountersReset());
-    openModal();
+    if (authorized) {
+      let tmp = burger.bun ? [burger.bun._id, burger.bun._id] : [];
+      tmp = [...tmp, ...burger.filling.map((item) => item._id)];
+      dispatch(burgerLock());
+      dispatch(orderCreate(tmp));
+      openModal();
+    } else {
+      navigate(PATH.LOGIN);
+    }
   };
 
   return (
@@ -140,24 +156,38 @@ const BurgerConstructor = () => {
       </div>
       {!burgerEmpty && (
         <div className={styles.footer}>
-          <span className="text text_type_digits-medium mr-2">
-            {burgerPrice}
-          </span>
-          <CurrencyIcon type="primary" />
-          <Button
-            htmlType="button"
-            type="primary"
-            size="medium"
-            extraClass="ml-10"
-            onClick={createOrder}
-            disabled={loading}
-          >
-            Оформить заказ
-          </Button>
+          {loading ? (
+            <p className="text text_type_main-default text_color_inactive text-left">
+              Ждите, идет обработка заказа...
+            </p>
+          ) : (
+            <>
+              <span className="text text_type_digits-medium mr-2">
+                {burgerPrice}
+              </span>
+              <CurrencyIcon type="primary" />
+
+              <Button
+                htmlType="button"
+                type="primary"
+                size="medium"
+                extraClass="ml-10"
+                onClick={createOrder}
+                disabled={loading}
+              >
+                Оформить заказ
+              </Button>
+            </>
+          )}
         </div>
       )}
-      {isModalOpen && !loading && (
-        <Modal onClose={closeModal}>
+      {isModalOpen && (
+        <Modal
+          onClose={() => {
+            !loading && dispatch(orderClear());
+            closeModal();
+          }}
+        >
           <OrderDetails />
         </Modal>
       )}

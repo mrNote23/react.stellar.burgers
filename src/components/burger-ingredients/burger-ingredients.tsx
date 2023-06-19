@@ -1,14 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { TIngredient } from "../../types";
+import { TIngredient } from "../../config/types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredientsItem from "./burger-ingredients-item/burger-ingredients-item";
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
 import styles from "./burger-ingredients.module.css";
-import { useModal } from "../../hooks/use-modal";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { TRootState } from "../../services/store";
-import { detailsSet } from "../../services/reducers/details";
 
 const BUN_TYPE = "bun";
 const MAIN_TYPE = "main";
@@ -23,11 +19,7 @@ const BurgerIngredients = () => {
     (store: TRootState) => store.ingredients.ingredients
   );
 
-  const dispatch = useDispatch();
-
   const [currentTab, setCurrentTab] = useState(BUN);
-
-  const { isModalOpen, openModal, closeModal } = useModal(false);
 
   const bunTarget = useRef<HTMLParagraphElement>(null);
   const mainTarget = useRef<HTMLParagraphElement>(null);
@@ -111,11 +103,6 @@ const BurgerIngredients = () => {
     [ingredients]
   );
 
-  const showIngredientDetails = (ingredient: TIngredient) => {
-    dispatch(detailsSet(ingredient));
-    openModal();
-  };
-
   return (
     <section className={styles.section}>
       <p className="text text_type_main-large mt-10 pb-5">Соберите бургер</p>
@@ -153,40 +140,23 @@ const BurgerIngredients = () => {
           Булки
         </p>
         {buns.map((item: TIngredient) => (
-          <BurgerIngredientsItem
-            key={item._id}
-            ingredient={item}
-            onClick={() => showIngredientDetails(item)}
-          />
+          <BurgerIngredientsItem key={item._id} ingredient={item} />
         ))}
 
         <p className="text text_type_main-medium mt-10 w-100" ref={sauceTarget}>
           Соусы
         </p>
         {sauces.map((item: TIngredient) => (
-          <BurgerIngredientsItem
-            key={item._id}
-            ingredient={item}
-            onClick={() => showIngredientDetails(item)}
-          />
+          <BurgerIngredientsItem key={item._id} ingredient={item} />
         ))}
 
         <p className="text text_type_main-medium mt-10 w-100" ref={mainTarget}>
           Начинки
         </p>
         {mains.map((item: TIngredient) => (
-          <BurgerIngredientsItem
-            key={item._id}
-            ingredient={item}
-            onClick={() => showIngredientDetails(item)}
-          />
+          <BurgerIngredientsItem key={item._id} ingredient={item} />
         ))}
       </div>
-      {isModalOpen && (
-        <Modal onClose={closeModal} title="Детали ингредиента">
-          <IngredientDetails />
-        </Modal>
-      )}
     </section>
   );
 };

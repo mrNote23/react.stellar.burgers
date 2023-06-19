@@ -2,9 +2,14 @@ import ready from "../../images/ready.png";
 import styles from "./order-details.module.css";
 import { useSelector } from "react-redux";
 import { TRootState } from "../../services/store";
+import Loader from "../loader/loader";
 
 const OrderDetails = () => {
   const order = useSelector((store: TRootState) => store.order);
+
+  if (order.loading) {
+    return <Loader />;
+  }
   return (
     <>
       {order !== null && order.success ? (

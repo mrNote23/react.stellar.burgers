@@ -13,6 +13,7 @@ export type TIngredient = {
   image_large: string;
   __v: number;
   include: number;
+  locked?: boolean;
 };
 
 export type TBurger = {
@@ -27,4 +28,27 @@ export type TOrder = {
   };
   success: boolean;
   loading: boolean;
+};
+
+export type TUser = {
+  success: boolean;
+  user: {
+    name: string;
+    email: string;
+  };
+  userLoading: boolean;
+  error?: string;
+  authorized: boolean;
+  authProcess?: boolean;
+};
+
+export type TUserLogin = {
+  email: string;
+  password: string;
+};
+
+export type TUserRegister = {
+  name: string;
+  email: string;
+  password: string;
 };
