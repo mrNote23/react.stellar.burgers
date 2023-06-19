@@ -1,8 +1,11 @@
-import { FC, Fragment, lazy, Suspense } from "react";
+import { FC, Fragment, lazy, ReactNode, Suspense } from "react";
 import MainLayout from "../../layouts/main-layout";
 import BlankLayout from "../../layouts/blank-layout";
 import PageError from "../../pages/page-error";
 import Loader from "../loader/loader";
+import { useSelector } from "react-redux";
+import { TRootState } from "../../services/store";
+import { Navigate, useLocation } from "react-router-dom";
 
 const Loadable = (Component: FC) => () =>
   (
@@ -47,26 +50,27 @@ const routes = [
   {
     path: "/profile",
     element: <PageProfile />,
-  },
-  {
-    path: "/profile/details",
-    element: <PageProfile />,
+    protected: true,
   },
   {
     path: "/profile/orders",
     element: <PageProfile />,
+    protected: true,
   },
   {
     path: "/profile/orders/:id",
     element: <PageProfile />,
+    protected: true,
   },
   {
     path: "/feed",
     element: <PageFeed />,
+    protected: true,
   },
   {
     path: "/feed/:id",
     element: <PageFeed />,
+    protected: true,
   },
   {
     path: "/login",
@@ -91,6 +95,19 @@ const routes = [
   },
 ];
 
+const ProtectedRouteElement: FC<{ children?: ReactNode }> = ({ children }) => {
+  const { authorized } = useSelector((store: TRootState) => store.user);
+  const location = useLocation();
+
+  if (authorized) {
+    return <Fragment>{children}</Fragment>;
+  } else {
+    return (
+      <Navigate to="/login" replace state={{ redirect: location.pathname }} />
+    );
+  }
+};
+
 const getRoutes = () => {
   const layouts: { [key: string]: FC } = {
     blank: BlankLayout,
@@ -99,7 +116,16 @@ const getRoutes = () => {
   };
   return routes.map((route) => {
     const Layout = route.layout ? layouts[route.layout] : MainLayout;
-    return { ...route, element: <Layout>{route.element}</Layout> };
+    return {
+      ...route,
+      element: route.protected ? (
+        <ProtectedRouteElement>
+          <Layout>{route.element}</Layout>
+        </ProtectedRouteElement>
+      ) : (
+        <Layout>{route.element}</Layout>
+      ),
+    };
   });
 };
 
