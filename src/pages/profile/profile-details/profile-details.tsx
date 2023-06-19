@@ -70,7 +70,7 @@ const ProfileDetails = () => {
             </Button>
             <Button
               htmlType="button"
-              type="primary"
+              type="secondary"
               size="small"
               onClick={resetForm}
               extraClass="text_type_main-default mr-5"
