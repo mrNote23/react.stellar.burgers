@@ -5,7 +5,7 @@ import { TDispatch, TRootState } from "../../services/store";
 import { loadIngredients } from "../../services/reducers/ingredients";
 import Router from "../router/router";
 import Loader from "../loader/loader";
-import PageError from "../../pages/page-error";
+import PageError from "../../pages/page-error/page-error";
 import { userAuthorize } from "../../services/reducers/user";
 
 const App = () => {

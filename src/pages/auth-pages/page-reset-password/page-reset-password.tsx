@@ -1,4 +1,4 @@
-import { useForm } from "../hooks/use-form";
+import { useForm } from "../../../hooks/use-form";
 import { FormEvent, Fragment, useState } from "react";
 import {
   Button,
@@ -6,11 +6,11 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import Api from "../utils/api";
+import Api from "../../../utils/api";
 import { useSelector } from "react-redux";
-import { TRootState } from "../services/store";
-import { deleteCookie, getCookie } from "../utils/cookie";
-import { PATH, RESET_PASSWORD_COOKIE_NAME } from "../config/constants";
+import { TRootState } from "../../../services/store";
+import { deleteCookie, getCookie } from "../../../utils/cookie";
+import { PATH, RESET_PASSWORD_COOKIE_NAME } from "../../../config/constants";
 
 const PageResetPassword = () => {
   const { authorized } = useSelector((store: TRootState) => store.user);

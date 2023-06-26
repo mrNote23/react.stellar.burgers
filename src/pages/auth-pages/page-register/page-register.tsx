@@ -1,16 +1,16 @@
-import { useForm } from "../hooks/use-form";
+import { useForm } from "../../../hooks/use-form";
 import { useDispatch, useSelector } from "react-redux";
-import { TDispatch, TRootState } from "../services/store";
+import { TDispatch, TRootState } from "../../../services/store";
 import { Link, useNavigate } from "react-router-dom";
 import { FormEvent, Fragment, useEffect } from "react";
-import { userRegister } from "../services/reducers/user";
+import { userRegister } from "../../../services/reducers/user";
 import {
   Button,
   EmailInput,
   PasswordInput,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { PATH } from "../config/constants";
+import { PATH } from "../../../config/constants";
 
 const PageRegister = () => {
   const { form, onChange, resetForm } = useForm({

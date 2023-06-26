@@ -1,12 +1,12 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { TRootState } from "../services/store";
+import { TRootState } from "../../services/store";
 import { useEffect } from "react";
-import { detailsSet } from "../services/reducers/details";
-import { useModal } from "../hooks/use-modal";
-import Modal from "../components/modal/modal";
-import IngredientDetails from "../components/ingredient-details/ingredient-details";
-import { PATH } from "../config/constants";
+import { detailsSet } from "../../services/reducers/details";
+import { useModal } from "../../hooks/use-modal";
+import Modal from "../../components/modal/modal";
+import IngredientDetails from "../../components/ingredient-details/ingredient-details";
+import { PATH } from "../../config/constants";
 
 const PageIngredientDetails = () => {
   const location = useLocation();
