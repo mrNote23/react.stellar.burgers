@@ -119,7 +119,7 @@ const BurgerConstructor = () => {
   return (
     <section className={styles.section} ref={dropIngredient}>
       <div className={styles.list}>
-        {burger.bun && (
+        {burger.bun ? (
           <div className={styles.item}>
             <div className={styles.drag}></div>
             <ConstructorElement
@@ -130,19 +130,37 @@ const BurgerConstructor = () => {
               thumbnail={burger.bun.image}
             />
           </div>
+        ) : (
+          <div className={styles.item}>
+            <div className={styles.empty_bun_top}>
+              <p className="text text_type_main-default text_color_inactive">
+                Перетащите булку
+              </p>
+            </div>
+          </div>
         )}
         <div className={styles.scrolled} ref={scrolledWindow}>
-          {burger.filling.map((item, index) => (
-            <BurgerConstructorItem
-              ingredient={item}
-              onDelete={deleteIngredient}
-              index={index}
-              key={index}
-              onSwap={swapIngredients}
-            />
-          ))}
+          {burger.filling.length ? (
+            burger.filling.map((item, index) => (
+              <BurgerConstructorItem
+                ingredient={item}
+                onDelete={deleteIngredient}
+                index={index}
+                key={index}
+                onSwap={swapIngredients}
+              />
+            ))
+          ) : (
+            <div className={styles.item}>
+              <div className={styles.empty_filling}>
+                <p className="text text_type_main-default text_color_inactive">
+                  Перетащите начинку
+                </p>
+              </div>
+            </div>
+          )}
         </div>
-        {burger.bun && (
+        {burger.bun ? (
           <div className={styles.item}>
             <div className={styles.drag}></div>
             <ConstructorElement
@@ -152,6 +170,14 @@ const BurgerConstructor = () => {
               price={burger.bun.price}
               thumbnail={burger.bun.image}
             />
+          </div>
+        ) : (
+          <div className={styles.item}>
+            <div className={styles.empty_bun_bottom}>
+              <p className="text text_type_main-default text_color_inactive">
+                Перетащите булку
+              </p>
+            </div>
           </div>
         )}
       </div>
