@@ -1,17 +1,15 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useDrop } from "react-dnd";
 import { nanoid } from "nanoid";
-import { TBurger, TIngredient } from "../../config/types";
+import { TBurger, TIngredient } from "@config/types";
 import {
   ConstructorElement,
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import Modal from "../modal/modal";
-import OrderDetails from "../order-details/order-details";
-import styles from "./burger-constructor.module.css";
-import BurgerConstructorItem from "./burger-constructor-item/burger-constructor-item";
-import { useModal } from "../../hooks/use-modal";
+import Modal from "@components/modal/modal";
+import OrderDetails from "@components/order-details/order-details";
+import { useModal } from "@hooks/use-modal";
 import { useDispatch, useSelector } from "react-redux";
 import {
   burgerAddIngredient,
@@ -19,16 +17,19 @@ import {
   burgerLock,
   burgerRemoveIngredient,
   burgerSwapIngredients,
-} from "../../services/reducers/burger";
+} from "@store/reducers/burger-reducer";
 import {
   ingredientCounterDec,
   ingredientCounterInc,
   ingredientsCountersReset,
-} from "../../services/reducers/ingredients";
-import { orderClear, orderCreate } from "../../services/reducers/order";
-import { TDispatch, TRootState } from "../../services/store";
+} from "@store/reducers/ingredients-reducer";
+import { orderClear, orderCreate } from "@store/reducers/order-reducer";
+import { TDispatch, TRootState } from "@store/store";
 import { useNavigate } from "react-router-dom";
-import { PATH } from "../../config/constants";
+import { PATH } from "@config/constants";
+import BurgerConstructorItem from "@components/burger-constructor/burger-constructor-item/burger-constructor-item";
+
+import styles from "./burger-constructor.module.css";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch<TDispatch>();

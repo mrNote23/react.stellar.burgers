@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { TBurger, TIngredient } from "../../config/types";
+import { TBurger, TIngredient } from "@config/types";
 
 const initialState: TBurger = {
   bun: null,

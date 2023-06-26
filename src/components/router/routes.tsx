@@ -1,12 +1,12 @@
 import { FC, Fragment, lazy, ReactNode, Suspense } from "react";
-import MainLayout from "../../layouts/main-layout";
-import BlankLayout from "../../layouts/blank-layout";
-import PageError from "../../pages/page-error/page-error";
-import Loader from "../loader/loader";
+import MainLayout from "@layouts/main-layout";
+import BlankLayout from "@layouts/blank-layout";
+import PageError from "@pages/page-error/page-error";
 import { useSelector } from "react-redux";
-import { TRootState } from "../../services/store";
+import { TRootState } from "@store/store";
 import { Navigate, useLocation } from "react-router-dom";
-import { PATH } from "../../config/constants";
+import { PATH } from "@config/constants";
+import Loader from "@components/loader/loader";
 
 const Loadable = (Component: FC) => () =>
   (

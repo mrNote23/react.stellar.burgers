@@ -1,15 +1,16 @@
 import { FormEvent, Fragment, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useForm } from "../../../hooks/use-form";
-import { useDispatch, useSelector } from "react-redux";
-import { userLogin } from "../../../services/reducers/user";
-import { TDispatch, TRootState } from "../../../services/store";
-import { PATH } from "../../../config/constants";
+
+import { useForm } from "@hooks/use-form";
+import { userLogin } from "@store/reducers/user-reducer";
+import { TDispatch, TRootState } from "@store/store";
+import { PATH } from "@config/constants";
 
 const PageLogin = () => {
   const { form, onChange, resetForm } = useForm({ email: "", password: "" });

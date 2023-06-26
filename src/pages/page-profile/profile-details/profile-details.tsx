@@ -5,11 +5,12 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useForm } from "../../../hooks/use-form";
 import { useDispatch, useSelector } from "react-redux";
-import { TDispatch, TRootState } from "../../../services/store";
-import { userUpdate } from "../../../services/reducers/user";
-import Loader from "../../../components/loader/loader";
+
+import { useForm } from "@hooks/use-form";
+import { TDispatch, TRootState } from "@store/store";
+import { userUpdate } from "@store/reducers/user-reducer";
+import Loader from "@components/loader/loader";
 
 const ProfileDetails = () => {
   const { user, userLoading, error } = useSelector(

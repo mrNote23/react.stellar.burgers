@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import Api from "../../utils/api";
-import { TUser, TUserLogin, TUserRegister } from "../../config/types";
-import { deleteCookie, setCookie } from "../../utils/cookie";
+import Api from "@utils/api";
+import { TUser, TUserLogin, TUserRegister } from "@config/types";
+import { deleteCookie, setCookie } from "@utils/cookie";
 import {
   ACCESS_COOKIE_OPTIONS,
   ACCESS_TOKEN_NAME,
   REFRESH_TOKEN_NAME,
-} from "../../config/constants";
+} from "@config/constants";
 
 export const userLogin = createAsyncThunk("user/login", (data: TUserLogin) => {
   return Api.userLogin(data);

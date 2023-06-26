@@ -1,8 +1,9 @@
 import { NavLink } from "react-router-dom";
 import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
+import HeaderNavLink from "@components/app-header/header-nav-link/header-nav-link";
+import { PATH } from "@config/constants";
+
 import styles from "./app-header.module.css";
-import HeaderNavLink from "./header-nav-link/header-nav-link";
-import { PATH } from "../../config/constants";
 
 const AppHeader = () => {
   return (

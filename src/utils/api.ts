@@ -1,10 +1,10 @@
-import { TUserLogin, TUserRegister } from "../config/types";
-import { deleteCookie, getCookie, setCookie } from "./cookie";
+import { TUserLogin, TUserRegister } from "@config/types";
+import { deleteCookie, getCookie, setCookie } from "@utils/cookie";
 import {
   ACCESS_COOKIE_OPTIONS,
   ACCESS_TOKEN_NAME,
   REFRESH_TOKEN_NAME,
-} from "../config/constants";
+} from "@config/constants";
 
 const API = "https://norma.nomoreparties.space/api";
 

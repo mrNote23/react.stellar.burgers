@@ -1,5 +1,5 @@
 import { FC, ReactNode, Fragment } from "react";
-import AppHeader from "../components/app-header/app-header";
+import AppHeader from "@components/app-header/app-header";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 

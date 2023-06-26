@@ -1,11 +1,12 @@
 import { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useDrag } from "react-dnd";
-import { TIngredient } from "../../../config/types";
+import { TIngredient } from "@config/types";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+
 import styles from "./burger-ingredients-item.module.css";
 
 type TBurgerIngredientsItemProps = {
