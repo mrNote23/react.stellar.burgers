@@ -68,7 +68,7 @@ const BurgerConstructor = () => {
     }px`;
   };
 
-  const [, dropIngredient] = useDrop({
+  const [{ isHover }, dropIngredient] = useDrop({
     accept: "ingredient",
     drop: (item: { [key: string]: TIngredient }) => {
       if (item.ingredient.type === "bun" && burger.bun) {
@@ -77,6 +77,9 @@ const BurgerConstructor = () => {
       dispatch(burgerAddIngredient({ ...item.ingredient, id: nanoid() }));
       dispatch(ingredientCounterInc(item.ingredient._id));
     },
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
   });
 
   const burgerEmpty = useMemo(
@@ -118,7 +121,7 @@ const BurgerConstructor = () => {
 
   return (
     <section className={styles.section} ref={dropIngredient}>
-      <div className={styles.list}>
+      <div className={`${styles.list} ${isHover ? styles.target : ""}`}>
         {burger.bun ? (
           <div className={styles.item}>
             <div className={styles.drag}></div>

@@ -17,15 +17,21 @@ const BurgerIngredientsItem: FC<TBurgerIngredientsItemProps> = ({
   ingredient,
 }) => {
   const location = useLocation();
-  const [, dragIngredient, dragPreview] = useDrag({
+  const [{ isDragging }, dragIngredient, dragPreview] = useDrag({
     type: "ingredient",
     item: {
       ingredient,
     },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
   });
 
   return (
-    <div className={styles.item} ref={dragIngredient}>
+    <div
+      className={`${styles.item} ${isDragging ? styles.dragging : ""}`}
+      ref={dragIngredient}
+    >
       <Link
         className="text_color_primary"
         to={`/ingredients/${ingredient._id}`}
