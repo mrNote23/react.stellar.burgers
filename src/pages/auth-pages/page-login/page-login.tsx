@@ -8,7 +8,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { useForm } from "@hooks/use-form";
-import { userLogin } from "@store/reducers/user-reducer";
+import { resetError, userLogin } from "@store/reducers/user-reducer";
 import { TDispatch, TRootState } from "@store/store";
 import { PATH } from "@config/constants";
 
@@ -22,6 +22,12 @@ const PageLogin = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetError());
+    };
+  }, [dispatch]);
 
   useEffect(
     () => {

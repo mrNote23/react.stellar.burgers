@@ -54,7 +54,11 @@ const initialState: TUser = {
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    resetError: (state) => {
+      return { ...state, error: "" };
+    },
+  },
   extraReducers: (builder) => {
     builder
       // Login
@@ -171,6 +175,5 @@ export const userSlice = createSlice({
   },
 });
 
-// eslint-disable-next-line
-export const {} = userSlice.actions;
+export const { resetError } = userSlice.actions;
 export default userSlice.reducer;

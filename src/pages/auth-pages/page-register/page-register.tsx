@@ -10,7 +10,7 @@ import {
 
 import { useForm } from "@hooks/use-form";
 import { TDispatch, TRootState } from "@store/store";
-import { userRegister } from "@store/reducers/user-reducer";
+import { resetError, userRegister } from "@store/reducers/user-reducer";
 import { PATH } from "@config/constants";
 
 const PageRegister = () => {
@@ -26,6 +26,12 @@ const PageRegister = () => {
   );
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetError());
+    };
+  }, [dispatch]);
 
   useEffect(
     () => {
