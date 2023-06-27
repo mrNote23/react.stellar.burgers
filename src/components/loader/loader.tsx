@@ -1,5 +1,6 @@
-import styles from "./loader.module.css";
 import { FC } from "react";
+
+import styles from "./loader.module.css";
 
 const Loader: FC<{ simple?: boolean }> = ({ simple }) => {
   return (

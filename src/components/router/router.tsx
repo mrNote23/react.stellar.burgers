@@ -1,6 +1,6 @@
 import { Routes, useLocation, Route } from "react-router-dom";
-import getRoutes from "./routes";
 import { Fragment } from "react";
+import getRoutes from "@components/router/routes";
 
 const Router = () => {
   const location = useLocation();

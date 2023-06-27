@@ -1,12 +1,12 @@
 import { FC, Fragment, lazy, ReactNode, Suspense } from "react";
-import MainLayout from "../../layouts/main-layout";
-import BlankLayout from "../../layouts/blank-layout";
-import PageError from "../../pages/page-error";
-import Loader from "../loader/loader";
+import MainLayout from "@layouts/main-layout";
+import BlankLayout from "@layouts/blank-layout";
+import PageError from "@pages/page-error/page-error";
 import { useSelector } from "react-redux";
-import { TRootState } from "../../services/store";
+import { TRootState } from "@store/store";
 import { Navigate, useLocation } from "react-router-dom";
-import { PATH } from "../../config/constants";
+import { PATH } from "@config/constants";
+import Loader from "@components/loader/loader";
 
 const Loadable = (Component: FC) => () =>
   (
@@ -15,22 +15,38 @@ const Loadable = (Component: FC) => () =>
     </Suspense>
   );
 
-const PageHome = Loadable(lazy(() => import("../../pages/page-home")));
+const PageHome = Loadable(
+  lazy(() => import("../../pages/page-home/page-home"))
+);
 const PageIngredientDetails = Loadable(
-  lazy(() => import("../../pages/page-ingredient-details"))
+  lazy(
+    () => import("../../pages/page-ingredient-details/page-ingredient-details")
+  )
 );
 
 const PageProfile = Loadable(
-  lazy(() => import("../../pages/profile/page-profile"))
+  lazy(() => import("../../pages/page-profile/page-profile"))
 );
-const PageFeed = Loadable(lazy(() => import("../../pages/page-feed")));
-const PageLogin = Loadable(lazy(() => import("../../pages/page-login")));
-const PageRegister = Loadable(lazy(() => import("../../pages/page-register")));
+const PageFeed = Loadable(
+  lazy(() => import("../../pages/page-feed/page-feed"))
+);
+const PageLogin = Loadable(
+  lazy(() => import("../../pages/auth-pages/page-login/page-login"))
+);
+const PageRegister = Loadable(
+  lazy(() => import("../../pages/auth-pages/page-register/page-register"))
+);
 const PageForgotPassword = Loadable(
-  lazy(() => import("../../pages/page-forgot-password"))
+  lazy(
+    () =>
+      import("../../pages/auth-pages/page-forgot-password/page-forgot-password")
+  )
 );
 const PageResetPassword = Loadable(
-  lazy(() => import("../../pages/page-reset-password"))
+  lazy(
+    () =>
+      import("../../pages/auth-pages/page-reset-password/page-reset-password")
+  )
 );
 
 const routes = [

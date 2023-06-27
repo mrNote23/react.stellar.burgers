@@ -1,20 +1,24 @@
-import { useForm } from "../hooks/use-form";
 import { FormEvent, Fragment, useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import { useForm } from "@hooks/use-form";
 import {
   Button,
-  Input,
-  PasswordInput,
+  EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import Api from "../utils/api";
-import { useSelector } from "react-redux";
-import { TRootState } from "../services/store";
-import { deleteCookie, getCookie } from "../utils/cookie";
-import { PATH, RESET_PASSWORD_COOKIE_NAME } from "../config/constants";
+import Api from "@utils/api";
+import { TRootState } from "@store/store";
+import { setCookie } from "@utils/cookie";
+import {
+  PATH,
+  RESET_PASSWORD_COOKIE_NAME,
+  RESET_PASSWORD_COOKIE_OPTIONS,
+} from "@config/constants";
 
-const PageResetPassword = () => {
+const PageForgotPassword = () => {
   const { authorized } = useSelector((store: TRootState) => store.user);
-  const { form, onChange, resetForm } = useForm({ token: "", password: "" });
+  const { form, onChange } = useForm({ email: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -22,22 +26,25 @@ const PageResetPassword = () => {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    Api.userSetPassword(form.token, form.password)
+    Api.userResetPassword(form.email)
       .then(() => {
         setLoading(false);
-        deleteCookie(RESET_PASSWORD_COOKIE_NAME);
-        navigate(PATH.LOGIN, { replace: true });
+        setCookie(
+          RESET_PASSWORD_COOKIE_NAME,
+          true,
+          RESET_PASSWORD_COOKIE_OPTIONS
+        );
+        navigate(PATH.RESET_PASSWORD, { replace: true });
       })
       .catch((err) => {
         setLoading(false);
         setError(err);
-        resetForm();
       });
   };
 
   return (
     <Fragment>
-      {authorized || !getCookie(RESET_PASSWORD_COOKIE_NAME) ? (
+      {authorized ? (
         <Navigate to={PATH.HOME} />
       ) : (
         <form
@@ -52,18 +59,10 @@ const PageResetPassword = () => {
               {error}
             </p>
           )}
-          <PasswordInput
+          <EmailInput
             extraClass="m-5"
-            placeholder="Введите новый пароль"
-            name="password"
-            value={form.password}
-            onChange={onChange}
-          />
-          <Input
-            extraClass="mb-5"
-            placeholder="Введите код из письма"
-            name="token"
-            value={form.token}
+            name="email"
+            value={form.email}
             onChange={onChange}
             autoFocus
           />
@@ -73,7 +72,7 @@ const PageResetPassword = () => {
             size="medium"
             disabled={loading}
           >
-            Сохранить
+            Восстановить
           </Button>
 
           <p className="text text_type_main-default text_color_inactive mt-15">
@@ -86,4 +85,4 @@ const PageResetPassword = () => {
   );
 };
 
-export default PageResetPassword;
+export default PageForgotPassword;

@@ -1,11 +1,12 @@
 import { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useDrag } from "react-dnd";
-import { TIngredient } from "../../../config/types";
+import { TIngredient } from "@config/types";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+
 import styles from "./burger-ingredients-item.module.css";
 
 type TBurgerIngredientsItemProps = {
@@ -16,15 +17,21 @@ const BurgerIngredientsItem: FC<TBurgerIngredientsItemProps> = ({
   ingredient,
 }) => {
   const location = useLocation();
-  const [, dragIngredient, dragPreview] = useDrag({
+  const [{ isDragging }, dragIngredient, dragPreview] = useDrag({
     type: "ingredient",
     item: {
       ingredient,
     },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
   });
 
   return (
-    <div className={styles.item} ref={dragIngredient}>
+    <div
+      className={`${styles.item} ${isDragging ? styles.dragging : ""}`}
+      ref={dragIngredient}
+    >
       <Link
         className="text_color_primary"
         to={`/ingredients/${ingredient._id}`}
