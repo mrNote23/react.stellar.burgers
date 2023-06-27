@@ -21,3 +21,8 @@
 	justify-content: center;
 	margin: 4px 0;
 }
+
+.dragging {
+	background: var(--background);
+	border-radius: 30px;
+}

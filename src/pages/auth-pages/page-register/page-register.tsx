@@ -1,16 +1,17 @@
-import { useForm } from "../hooks/use-form";
-import { useDispatch, useSelector } from "react-redux";
-import { TDispatch, TRootState } from "../services/store";
-import { Link, useNavigate } from "react-router-dom";
 import { FormEvent, Fragment, useEffect } from "react";
-import { userRegister } from "../services/reducers/user";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Button,
   EmailInput,
   PasswordInput,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { PATH } from "../config/constants";
+
+import { useForm } from "@hooks/use-form";
+import { TDispatch, TRootState } from "@store/store";
+import { resetError, userRegister } from "@store/reducers/user-reducer";
+import { PATH } from "@config/constants";
 
 const PageRegister = () => {
   const { form, onChange, resetForm } = useForm({
@@ -25,6 +26,12 @@ const PageRegister = () => {
   );
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetError());
+    };
+  }, [dispatch]);
 
   useEffect(
     () => {

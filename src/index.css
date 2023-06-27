@@ -10,11 +10,12 @@ body,
 
 *::-webkit-scrollbar {
   width: 6px;
-  background-color: var(--background-alt);
+  background: transparent;
 }
 
 *::-webkit-scrollbar-thumb {
   background-color: var(--text-inactive-color);
+  width: 6px;
 }
 
 a {

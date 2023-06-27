@@ -1,7 +1,8 @@
-import styles from "./header-nav-link.module.css";
 import { BurgerIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink, useLocation } from "react-router-dom";
 import { FC, useMemo } from "react";
+
+import styles from "./header-nav-link.module.css";
 
 const HeaderNavLink: FC<{ path: string; name: string }> = ({ path, name }) => {
   const location = useLocation();

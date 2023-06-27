@@ -2,10 +2,11 @@ import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "../burger-constructor.module.css";
 import { FC, useRef } from "react";
-import { TIngredient } from "../../../config/types";
+import { TIngredient } from "@config/types";
 import { useDrag, useDrop } from "react-dnd";
+
+import styles from "../burger-constructor.module.css";
 
 type TBurgerConstructorItemProps = {
   ingredient: TIngredient;

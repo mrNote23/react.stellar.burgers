@@ -1,17 +1,15 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useDrop } from "react-dnd";
 import { nanoid } from "nanoid";
-import { TBurger, TIngredient } from "../../config/types";
+import { TBurger, TIngredient } from "@config/types";
 import {
   ConstructorElement,
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import Modal from "../modal/modal";
-import OrderDetails from "../order-details/order-details";
-import styles from "./burger-constructor.module.css";
-import BurgerConstructorItem from "./burger-constructor-item/burger-constructor-item";
-import { useModal } from "../../hooks/use-modal";
+import Modal from "@components/modal/modal";
+import OrderDetails from "@components/order-details/order-details";
+import { useModal } from "@hooks/use-modal";
 import { useDispatch, useSelector } from "react-redux";
 import {
   burgerAddIngredient,
@@ -19,16 +17,19 @@ import {
   burgerLock,
   burgerRemoveIngredient,
   burgerSwapIngredients,
-} from "../../services/reducers/burger";
+} from "@store/reducers/burger-reducer";
 import {
   ingredientCounterDec,
   ingredientCounterInc,
   ingredientsCountersReset,
-} from "../../services/reducers/ingredients";
-import { orderClear, orderCreate } from "../../services/reducers/order";
-import { TDispatch, TRootState } from "../../services/store";
+} from "@store/reducers/ingredients-reducer";
+import { orderClear, orderCreate } from "@store/reducers/order-reducer";
+import { TDispatch, TRootState } from "@store/store";
 import { useNavigate } from "react-router-dom";
-import { PATH } from "../../config/constants";
+import { PATH } from "@config/constants";
+import BurgerConstructorItem from "@components/burger-constructor/burger-constructor-item/burger-constructor-item";
+
+import styles from "./burger-constructor.module.css";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch<TDispatch>();
@@ -67,7 +68,7 @@ const BurgerConstructor = () => {
     }px`;
   };
 
-  const [, dropIngredient] = useDrop({
+  const [{ isHover }, dropIngredient] = useDrop({
     accept: "ingredient",
     drop: (item: { [key: string]: TIngredient }) => {
       if (item.ingredient.type === "bun" && burger.bun) {
@@ -76,6 +77,9 @@ const BurgerConstructor = () => {
       dispatch(burgerAddIngredient({ ...item.ingredient, id: nanoid() }));
       dispatch(ingredientCounterInc(item.ingredient._id));
     },
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
   });
 
   const burgerEmpty = useMemo(
@@ -117,8 +121,8 @@ const BurgerConstructor = () => {
 
   return (
     <section className={styles.section} ref={dropIngredient}>
-      <div className={styles.list}>
-        {burger.bun && (
+      <div className={`${styles.list} ${isHover ? styles.target : ""}`}>
+        {burger.bun ? (
           <div className={styles.item}>
             <div className={styles.drag}></div>
             <ConstructorElement
@@ -129,19 +133,37 @@ const BurgerConstructor = () => {
               thumbnail={burger.bun.image}
             />
           </div>
+        ) : (
+          <div className={styles.item}>
+            <div className={styles.empty_bun_top}>
+              <p className="text text_type_main-default text_color_inactive">
+                Перетащите булку
+              </p>
+            </div>
+          </div>
         )}
         <div className={styles.scrolled} ref={scrolledWindow}>
-          {burger.filling.map((item, index) => (
-            <BurgerConstructorItem
-              ingredient={item}
-              onDelete={deleteIngredient}
-              index={index}
-              key={index}
-              onSwap={swapIngredients}
-            />
-          ))}
+          {burger.filling.length ? (
+            burger.filling.map((item, index) => (
+              <BurgerConstructorItem
+                ingredient={item}
+                onDelete={deleteIngredient}
+                index={index}
+                key={index}
+                onSwap={swapIngredients}
+              />
+            ))
+          ) : (
+            <div className={styles.item}>
+              <div className={styles.empty_filling}>
+                <p className="text text_type_main-default text_color_inactive">
+                  Перетащите начинку
+                </p>
+              </div>
+            </div>
+          )}
         </div>
-        {burger.bun && (
+        {burger.bun ? (
           <div className={styles.item}>
             <div className={styles.drag}></div>
             <ConstructorElement
@@ -151,6 +173,14 @@ const BurgerConstructor = () => {
               price={burger.bun.price}
               thumbnail={burger.bun.image}
             />
+          </div>
+        ) : (
+          <div className={styles.item}>
+            <div className={styles.empty_bun_bottom}>
+              <p className="text text_type_main-default text_color_inactive">
+                Перетащите булку
+              </p>
+            </div>
           </div>
         )}
       </div>

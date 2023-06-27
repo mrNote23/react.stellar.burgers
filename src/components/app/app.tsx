@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { TDispatch, TRootState } from "../../services/store";
-import { loadIngredients } from "../../services/reducers/ingredients";
-import Router from "../router/router";
-import Loader from "../loader/loader";
-import PageError from "../../pages/page-error";
-import { userAuthorize } from "../../services/reducers/user";
+import { TDispatch, TRootState } from "@store/store";
+import { userAuthorize } from "@store/reducers/user-reducer";
+import { loadIngredients } from "@store/reducers/ingredients-reducer";
+import PageError from "@pages/page-error/page-error";
+import Router from "@components/router/router";
+import Loader from "@components/loader/loader";
 
 const App = () => {
   const { loading, error } = useSelector(

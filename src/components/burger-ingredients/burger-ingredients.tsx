@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { TIngredient } from "../../config/types";
+import { TIngredient } from "@config/types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import BurgerIngredientsItem from "./burger-ingredients-item/burger-ingredients-item";
-import styles from "./burger-ingredients.module.css";
+import BurgerIngredientsItem from "@components/burger-ingredients/burger-ingredients-item/burger-ingredients-item";
 import { useSelector } from "react-redux";
-import { TRootState } from "../../services/store";
+import { TRootState } from "@store/store";
+
+import styles from "./burger-ingredients.module.css";
 
 const BUN_TYPE = "bun";
 const MAIN_TYPE = "main";

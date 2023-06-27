@@ -1,8 +1,9 @@
-import ready from "../../images/ready.png";
-import styles from "./order-details.module.css";
+import ready from "@images/ready.png";
 import { useSelector } from "react-redux";
-import { TRootState } from "../../services/store";
-import Loader from "../loader/loader";
+import { TRootState } from "@store/store";
+import Loader from "@components/loader/loader";
+
+import styles from "./order-details.module.css";
 
 const OrderDetails = () => {
   const order = useSelector((store: TRootState) => store.order);
