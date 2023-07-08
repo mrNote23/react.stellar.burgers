@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { TIngredient } from "@config/types";
 
-const initialState: TIngredient | {} = {};
+const initialState: TIngredient | null = null;
 
 export const ingredientDetailsSlice = createSlice({
   name: "ingredientDetails",

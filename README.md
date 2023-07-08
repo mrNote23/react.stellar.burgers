@@ -18,7 +18,7 @@
 
 - HTML
 - CSS
-- JavaScript
+- TypeScript
 - React
 - React-redux/toolkit
 - React-dnd
@@ -35,6 +35,11 @@ cd react.stellar.burgers
 ### Установка зависимостей
 ```bash
 npm install
+```
+
+### Проверка
+```bash
+npm run lint
 ```
 
 ### Запуск

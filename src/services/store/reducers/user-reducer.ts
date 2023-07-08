@@ -85,7 +85,7 @@ export const userSlice = createSlice({
         );
         setCookie(
           ACCESS_TOKEN_NAME,
-          action.payload.accessToken,
+          action.payload.accessToken as string,
           ACCESS_COOKIE_OPTIONS
         );
         return {
@@ -96,7 +96,7 @@ export const userSlice = createSlice({
         };
       })
       // Authorize
-      .addCase(userAuthorize.pending, (state) => {
+      .addCase(userAuthorize.pending, () => {
         return { ...initialState, authProcess: true };
       })
       .addCase(userAuthorize.fulfilled, (state, action) => {
@@ -107,7 +107,7 @@ export const userSlice = createSlice({
           authProcess: false,
         };
       })
-      .addCase(userAuthorize.rejected, (state, action) => {
+      .addCase(userAuthorize.rejected, () => {
         return { ...initialState, authProcess: false };
       })
       // Register
@@ -136,7 +136,7 @@ export const userSlice = createSlice({
         };
       })
       // Update profile
-      .addCase(userUpdate.pending, (state) => {
+      .addCase(userUpdate.pending, () => {
         return {
           ...initialState,
           userLoading: true,
@@ -162,12 +162,12 @@ export const userSlice = createSlice({
         };
       })
       // Logout
-      .addCase(userLogout.rejected, (state, action) => {
+      .addCase(userLogout.rejected, () => {
         deleteCookie(ACCESS_TOKEN_NAME);
         localStorage.removeItem(REFRESH_TOKEN_NAME);
         return { ...initialState, userLoading: false };
       })
-      .addCase(userLogout.fulfilled, (state, action) => {
+      .addCase(userLogout.fulfilled, () => {
         deleteCookie(ACCESS_TOKEN_NAME);
         localStorage.removeItem(REFRESH_TOKEN_NAME);
         return { ...initialState, userLoading: false };

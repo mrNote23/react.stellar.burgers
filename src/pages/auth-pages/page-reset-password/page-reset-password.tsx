@@ -15,9 +15,12 @@ import { PATH, RESET_PASSWORD_COOKIE_NAME } from "@config/constants";
 
 const PageResetPassword = () => {
   const { authorized } = useSelector((store: TRootState) => store.user);
-  const { form, onChange, resetForm } = useForm({ token: "", password: "" });
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { form, onChange, resetForm } = useForm({
+    token: "",
+    password: "",
+  });
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const onSubmit = (e: FormEvent) => {

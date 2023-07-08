@@ -29,19 +29,15 @@ const PageLogin = () => {
     };
   }, [dispatch]);
 
-  useEffect(
-    () => {
-      const returnPath = (location.state && location.state.redirect) || "/";
-      if (authorized) {
-        navigate(returnPath!, { replace: true, state: null });
-      }
-      if (error !== "") {
-        resetForm();
-      }
-    },
-    // eslint-disable-next-line
-    [error, authorized]
-  );
+  useEffect(() => {
+    const returnPath = (location.state && location.state.redirect) || "/";
+    if (authorized) {
+      navigate(returnPath, { replace: true, state: null });
+    }
+    if (error !== "") {
+      resetForm();
+    }
+  }, [error, authorized]);
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();

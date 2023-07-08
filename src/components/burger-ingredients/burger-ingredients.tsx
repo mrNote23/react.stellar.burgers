@@ -15,12 +15,17 @@ const BUN = { type: BUN_TYPE, scroll: true };
 const MAIN = { type: MAIN_TYPE, scroll: true };
 const SAUCE = { type: SAUCE_TYPE, scroll: true };
 
+type TBun = {
+  type: string;
+  scroll: boolean;
+};
+
 const BurgerIngredients = () => {
   const ingredients = useSelector(
     (store: TRootState) => store.ingredients.ingredients
   );
 
-  const [currentTab, setCurrentTab] = useState(BUN);
+  const [currentTab, setCurrentTab] = useState<TBun>(BUN);
 
   const bunTarget = useRef<HTMLParagraphElement>(null);
   const mainTarget = useRef<HTMLParagraphElement>(null);
@@ -61,7 +66,7 @@ const BurgerIngredients = () => {
     ];
     const observer = new IntersectionObserver(
       (entries: IntersectionObserverEntry[]) => {
-        entries.every((entry: any) => {
+        entries.every((entry: IntersectionObserverEntry) => {
           if (entry.isIntersecting) {
             switch (entry.target) {
               case bunTarget.current:

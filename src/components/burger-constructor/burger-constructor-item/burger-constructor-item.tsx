@@ -25,7 +25,7 @@ const BurgerConstructorItem: FC<TBurgerConstructorItemProps> = ({
 
   const [, drop] = useDrop({
     accept: "item",
-    hover(item: { index: number }, monitor) {
+    hover(item: { index: number }) {
       if (item.index === index) {
         return;
       }
@@ -51,7 +51,9 @@ const BurgerConstructorItem: FC<TBurgerConstructorItemProps> = ({
         text={ingredient.name}
         price={ingredient.price}
         thumbnail={ingredient.image}
-        handleClose={() => onDelete(ingredient._id, ingredient.id!)}
+        handleClose={() =>
+          ingredient.id && onDelete(ingredient._id, ingredient.id)
+        }
       />
     </div>
   );
