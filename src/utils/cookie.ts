@@ -1,4 +1,4 @@
-type TCookie = any;
+type TCookieValue = string | number | boolean | null;
 
 type TCookieSetOptions = {
   path?: string;
@@ -11,7 +11,7 @@ type TCookieSetOptions = {
 
 export const setCookie = (
   name: string,
-  value: TCookie,
+  value: TCookieValue,
   options?: TCookieSetOptions
 ) => {
   options = { path: "/", ...options };
@@ -24,7 +24,9 @@ export const setCookie = (
     options.expires = options.expires.toUTCString();
   }
 
-  let cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}`;
+  const cookie = `${encodeURIComponent(name)}=${
+    value ? encodeURIComponent(value) : value
+  }`;
 
   const tmpOptions = [];
 
@@ -42,7 +44,7 @@ export const getCookie = (name: string) => {
   function escape(s: string) {
     return s.replace(/([.*+?^$(){}|[\]/\\])/g, "\\$1");
   }
-  let match = document.cookie.match(
+  const match = document.cookie.match(
     RegExp("(?:^|;\\s*)" + escape(name) + "=([^;]*)")
   );
   return match ? decodeURIComponent(match[1]) : null;

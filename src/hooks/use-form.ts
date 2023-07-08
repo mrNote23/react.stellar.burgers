@@ -1,8 +1,8 @@
 import { ChangeEvent, useEffect, useState } from "react";
 
 export const useForm = <T>(initialFields: T) => {
-  const [form, setForm] = useState(initialFields);
-  const [modified, setModified] = useState(false);
+  const [form, setForm] = useState<T>(initialFields);
+  const [modified, setModified] = useState<boolean>(false);
 
   useEffect(() => {
     setModified(JSON.stringify(form) !== JSON.stringify(initialFields));

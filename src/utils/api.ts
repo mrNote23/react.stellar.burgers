@@ -8,9 +8,7 @@ import {
 
 const API = "https://norma.nomoreparties.space/api";
 
-type TResponse = {
-  [key: string]: unknown;
-};
+type TResponse = Record<string, unknown>;
 
 class _Api {
   private _baseUrl = API;
@@ -18,7 +16,7 @@ class _Api {
   private _checkAuth = async (
     response: Response | Promise<Response>,
     url: string,
-    options: {}
+    options: RequestInit
   ) => {
     if (
       (response as Response).status >= 400 &&
@@ -49,7 +47,7 @@ class _Api {
       : Promise.reject(`Response not success ${response}`);
   };
 
-  private _fetch = (url: string, options: {}) => {
+  private _fetch = (url: string, options: RequestInit) => {
     const headers: { [key: string]: string } = {
       "Content-Type": "application/json",
     };
@@ -63,7 +61,7 @@ class _Api {
     });
   };
 
-  private _request = (url: string, options = {}) => {
+  private _request = (url: string, options: RequestInit = {}) => {
     return this._fetch(url, options)
       .then((response) => this._checkAuth(response, url, options))
       .then(this._checkResponse)
