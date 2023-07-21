@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Api from "@utils/api";
 import { TUser, TUserLogin, TUserRegister } from "@config/types";
-import { deleteCookie, setCookie } from "@utils/cookie";
+import { deleteCookie, getCookie, setCookie } from "@utils/cookie";
 import {
   ACCESS_COOKIE_OPTIONS,
   ACCESS_TOKEN_NAME,
@@ -49,6 +49,7 @@ const initialState: TUser = {
   error: "",
   authorized: false,
   authProcess: false,
+  accessToken: "",
 };
 
 export const userSlice = createSlice({
@@ -93,6 +94,7 @@ export const userSlice = createSlice({
           userLoading: false,
           error: "",
           authorized: true,
+          accessToken: action.payload.accessToken as string,
         };
       })
       // Authorize
@@ -105,6 +107,7 @@ export const userSlice = createSlice({
           ...(action.payload as TUser),
           authorized: true,
           authProcess: false,
+          accessToken: getCookie("accessToken") as string,
         };
       })
       .addCase(userAuthorize.rejected, () => {

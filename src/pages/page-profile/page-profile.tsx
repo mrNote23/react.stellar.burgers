@@ -1,13 +1,11 @@
 import { Fragment } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
-
 import { userLogout } from "@store/reducers/user-reducer";
 import { TDispatch } from "@store/store";
 import { PATH } from "@config/constants";
 import ProfileOrders from "@pages/page-profile/profile-orders/profile-orders";
 import ProfileDetails from "@pages/page-profile/profile-details/profile-details";
-
 import styles from "./page-profile.module.css";
 
 const PageProfile = () => {

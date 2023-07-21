@@ -1,14 +1,14 @@
 import { FC, ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
-import ModalOverlay from "@components/modal/modal-overlay/modal-overlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import ModalOverlay from "@components/modal/modal-overlay/modal-overlay";
 
 import styles from "./modal.module.css";
 
 type TModalProps = {
   children?: ReactNode;
   onClose: () => void;
-  title?: string;
+  title?: string | ReactNode;
 };
 
 const Modal: FC<TModalProps> = ({ children, onClose, title = "" }) => {
@@ -26,9 +26,13 @@ const Modal: FC<TModalProps> = ({ children, onClose, title = "" }) => {
 
   return createPortal(
     <ModalOverlay onClose={() => onClose()}>
-      <div className={`${styles.modal} p-4`}>
+      <div className={`${styles.modal} p-6`}>
         <div className={styles.header}>
-          <p className="text text_type_main-large pl-5">{title}</p>
+          {typeof title === "string" ? (
+            <p className="text text_type_main-large pl-5">{title}</p>
+          ) : (
+            title
+          )}
           <button className={styles.closeBtn} onClick={() => onClose()}>
             <CloseIcon type="primary" />
           </button>
