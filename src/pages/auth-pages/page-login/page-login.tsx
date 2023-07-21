@@ -1,6 +1,5 @@
 import { FormEvent, Fragment, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   EmailInput,
@@ -9,15 +8,15 @@ import {
 
 import { useForm } from "@hooks/use-form";
 import { resetError, userLogin } from "@store/reducers/user-reducer";
-import { TDispatch, TRootState } from "@store/store";
+import { useAppDispatch, useAppSelector } from "@store/store";
 import { PATH } from "@config/constants";
 
 const PageLogin = () => {
   const { form, onChange, resetForm } = useForm({ email: "", password: "" });
-  const dispatch = useDispatch<TDispatch>();
+  const dispatch = useAppDispatch();
 
-  const { userLoading, authorized, error } = useSelector(
-    (store: TRootState) => store.user
+  const { userLoading, authorized, error } = useAppSelector(
+    (store) => store.user
   );
 
   const navigate = useNavigate();

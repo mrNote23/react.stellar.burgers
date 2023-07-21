@@ -3,15 +3,14 @@ import { deleteCookie, getCookie, setCookie } from "@utils/cookie";
 import {
   ACCESS_COOKIE_OPTIONS,
   ACCESS_TOKEN_NAME,
+  API_URL,
   REFRESH_TOKEN_NAME,
 } from "@config/constants";
-
-const API = "https://norma.nomoreparties.space/api";
 
 type TResponse = Record<string, unknown>;
 
 class _Api {
-  private _baseUrl = API;
+  private _baseUrl = API_URL;
 
   private _checkAuth = async (
     response: Response | Promise<Response>,
@@ -95,6 +94,10 @@ class _Api {
 
   public loadIngredients = () => {
     return this._request("/ingredients");
+  };
+
+  public loadOrderInfo = (id: number) => {
+    return this._request(`/orders/${id}`);
   };
 
   public createOrder = (ingredients: string[]) => {

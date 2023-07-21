@@ -1,10 +1,8 @@
+import BurgerIngredientsItem from "@components/burger-ingredients/burger-ingredients-item/burger-ingredients-item";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { TIngredient } from "@config/types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import BurgerIngredientsItem from "@components/burger-ingredients/burger-ingredients-item/burger-ingredients-item";
-import { useSelector } from "react-redux";
-import { TRootState } from "@store/store";
-
+import { useAppSelector } from "@store/store";
 import styles from "./burger-ingredients.module.css";
 
 const BUN_TYPE = "bun";
@@ -21,9 +19,7 @@ type TBun = {
 };
 
 const BurgerIngredients = () => {
-  const ingredients = useSelector(
-    (store: TRootState) => store.ingredients.ingredients
-  );
+  const ingredients = useAppSelector((store) => store.ingredients.ingredients);
 
   const [currentTab, setCurrentTab] = useState<TBun>(BUN);
 

@@ -1,12 +1,11 @@
 import { FC, Fragment, lazy, ReactNode, Suspense } from "react";
-import MainLayout from "@layouts/main-layout";
-import BlankLayout from "@layouts/blank-layout";
-import PageError from "@pages/page-error/page-error";
-import { useSelector } from "react-redux";
-import { TRootState } from "@store/store";
+import { useAppSelector } from "@store/store";
 import { Navigate, useLocation } from "react-router-dom";
 import { PATH } from "@config/constants";
 import Loader from "@components/loader/loader";
+import MainLayout from "@layouts/main-layout";
+import BlankLayout from "@layouts/blank-layout";
+import PageError from "@pages/page-error/page-error";
 
 const Loadable = (Component: FC) => () =>
   (
@@ -15,37 +14,39 @@ const Loadable = (Component: FC) => () =>
     </Suspense>
   );
 
-const PageHome = Loadable(
-  lazy(() => import("../../pages/page-home/page-home"))
-);
+const PageHome = Loadable(lazy(() => import("@pages/page-home/page-home")));
+
 const PageIngredientDetails = Loadable(
-  lazy(
-    () => import("../../pages/page-ingredient-details/page-ingredient-details")
-  )
+  lazy(() => import("@pages/page-ingredient-details/page-ingredient-details"))
+);
+
+const PageOrderInfo = Loadable(
+  lazy(() => import("@pages/page-order-info/page-order-info"))
 );
 
 const PageProfile = Loadable(
-  lazy(() => import("../../pages/page-profile/page-profile"))
+  lazy(() => import("@pages/page-profile/page-profile"))
 );
-const PageFeed = Loadable(
-  lazy(() => import("../../pages/page-feed/page-feed"))
-);
+
+const PageFeed = Loadable(lazy(() => import("@pages/page-feed/page-feed")));
+
 const PageLogin = Loadable(
-  lazy(() => import("../../pages/auth-pages/page-login/page-login"))
+  lazy(() => import("@pages/auth-pages/page-login/page-login"))
 );
+
 const PageRegister = Loadable(
-  lazy(() => import("../../pages/auth-pages/page-register/page-register"))
+  lazy(() => import("@pages/auth-pages/page-register/page-register"))
 );
+
 const PageForgotPassword = Loadable(
   lazy(
-    () =>
-      import("../../pages/auth-pages/page-forgot-password/page-forgot-password")
+    () => import("@pages/auth-pages/page-forgot-password/page-forgot-password")
   )
 );
+
 const PageResetPassword = Loadable(
   lazy(
-    () =>
-      import("../../pages/auth-pages/page-reset-password/page-reset-password")
+    () => import("@pages/auth-pages/page-reset-password/page-reset-password")
   )
 );
 
@@ -76,18 +77,29 @@ const routes = [
   },
   {
     path: `${PATH.PROFILE_ORDERS}/:id`,
-    element: <PageProfile />,
+    element: <PageOrderInfo />,
+    protected: true,
+  },
+  {
+    path: `${PATH.PROFILE_ORDERS}/:id`,
+    layout: "none",
+    element: <PageOrderInfo />,
+    modal: true,
     protected: true,
   },
   {
     path: PATH.FEED,
     element: <PageFeed />,
-    protected: true,
   },
   {
     path: `${PATH.FEED}/:id`,
-    element: <PageFeed />,
-    protected: true,
+    layout: "none",
+    element: <PageOrderInfo />,
+    modal: true,
+  },
+  {
+    path: `${PATH.FEED}/:id`,
+    element: <PageOrderInfo />,
   },
   {
     path: PATH.LOGIN,
@@ -118,7 +130,7 @@ const routes = [
 ];
 
 const ProtectedRouteElement: FC<{ children?: ReactNode }> = ({ children }) => {
-  const { authorized } = useSelector((store: TRootState) => store.user);
+  const { authorized } = useAppSelector((store) => store.user);
   const location = useLocation();
 
   if (authorized) {

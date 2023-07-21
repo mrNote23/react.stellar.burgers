@@ -1,12 +1,11 @@
 import ready from "@images/ready.png";
-import { useSelector } from "react-redux";
-import { TRootState } from "@store/store";
+import { useAppSelector } from "@store/store";
 import Loader from "@components/loader/loader";
 
 import styles from "./order-details.module.css";
 
 const OrderDetails = () => {
-  const order = useSelector((store: TRootState) => store.order);
+  const order = useAppSelector((store) => store.order);
 
   if (order.loading) {
     return <Loader />;

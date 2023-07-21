@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-
-import { TRootState } from "@store/store";
+import { useAppDispatch, useAppSelector } from "@store/store";
 import { setIngredientDetails } from "@store/reducers/ingredient-details-reducer";
 import { useModal } from "@hooks/use-modal";
 import Modal from "@components/modal/modal";
@@ -12,11 +10,9 @@ import { PATH } from "@config/constants";
 const PageIngredientDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const params = useParams();
-  const ingredients = useSelector(
-    (store: TRootState) => store.ingredients.ingredients
-  );
+  const ingredients = useAppSelector((store) => store.ingredients.ingredients);
   const { isModalOpen, openModal, closeModal } = useModal(false);
 
   useEffect(() => {

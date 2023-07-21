@@ -1,6 +1,6 @@
 .section_menu {
 	margin-top: 70px;
-	width: 400px;
+	width: 500px;
 	margin-left: 40px;
 	display: flex;
 	flex-direction: column;
@@ -8,7 +8,13 @@
 
 .section_content {
 	margin-top: 70px;
+	margin-bottom: 50px;
+	padding-right: 10px;
 	width: 100%;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	display: flex;
+	flex-direction: column;
 }
 .menu {
 	list-style: none;
