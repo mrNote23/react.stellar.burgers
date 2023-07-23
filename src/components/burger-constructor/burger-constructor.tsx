@@ -10,7 +10,6 @@ import {
 import Modal from "@components/modal/modal";
 import OrderDetails from "@components/order-details/order-details";
 import { useModal } from "@hooks/use-modal";
-import { useDispatch, useSelector } from "react-redux";
 import {
   burgerAddIngredient,
   burgerClearIngredients,
@@ -24,7 +23,7 @@ import {
   ingredientsCountersReset,
 } from "@store/reducers/ingredients-reducer";
 import { orderClear, orderCreate } from "@store/reducers/order-reducer";
-import { TDispatch, TRootState } from "@store/store";
+import { useAppDispatch, useAppSelector } from "@store/store";
 import { useNavigate } from "react-router-dom";
 import { PATH } from "@config/constants";
 import BurgerConstructorItem from "@components/burger-constructor/burger-constructor-item/burger-constructor-item";
@@ -32,11 +31,11 @@ import BurgerConstructorItem from "@components/burger-constructor/burger-constru
 import styles from "./burger-constructor.module.css";
 
 const BurgerConstructor = () => {
-  const dispatch = useDispatch<TDispatch>();
+  const dispatch = useAppDispatch();
 
-  const burger: TBurger = useSelector((store: TRootState) => store.burger);
-  const { loading, success } = useSelector((store: TRootState) => store.order);
-  const { authorized } = useSelector((store: TRootState) => store.user);
+  const burger: TBurger = useAppSelector((store) => store.burger);
+  const { loading, success } = useAppSelector((store) => store.order);
+  const { authorized } = useAppSelector((store) => store.user);
 
   const { isModalOpen, openModal, closeModal } = useModal(false);
 
@@ -149,7 +148,8 @@ const BurgerConstructor = () => {
                 ingredient={item}
                 onDelete={deleteIngredient}
                 index={index}
-                key={index}
+                // уникальный id - генерируется при добавлении ингредиента в состав бургера (стр.77)
+                key={item.id}
                 onSwap={swapIngredients}
               />
             ))

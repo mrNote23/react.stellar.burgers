@@ -1,6 +1,5 @@
 import { FormEvent, Fragment, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import { useForm } from "@hooks/use-form";
 import {
@@ -8,7 +7,7 @@ import {
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Api from "@utils/api";
-import { TRootState } from "@store/store";
+import { useAppSelector } from "@store/store";
 import { setCookie } from "@utils/cookie";
 import {
   PATH,
@@ -17,7 +16,7 @@ import {
 } from "@config/constants";
 
 const PageForgotPassword = () => {
-  const { authorized } = useSelector((store: TRootState) => store.user);
+  const { authorized } = useAppSelector((store) => store.user);
   const { form, onChange } = useForm({ email: "" });
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);

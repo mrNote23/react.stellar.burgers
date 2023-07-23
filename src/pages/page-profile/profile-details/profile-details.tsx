@@ -5,24 +5,21 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
 
 import { useForm } from "@hooks/use-form";
-import { TDispatch, TRootState } from "@store/store";
+import { useAppDispatch, useAppSelector } from "@store/store";
 import { userUpdate } from "@store/reducers/user-reducer";
 import Loader from "@components/loader/loader";
 
 const ProfileDetails = () => {
-  const { user, userLoading, error } = useSelector(
-    (store: TRootState) => store.user
-  );
+  const { user, userLoading, error } = useAppSelector((store) => store.user);
   const { form, onChange, resetForm, modified } = useForm({
     name: user.name,
     email: user.email,
     password: "",
   });
 
-  const dispatch = useDispatch<TDispatch>();
+  const dispatch = useAppDispatch();
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();

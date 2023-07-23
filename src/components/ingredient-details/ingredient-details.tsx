@@ -1,13 +1,11 @@
-import { useSelector } from "react-redux";
-import { TRootState } from "@store/store";
+import { useAppSelector } from "@store/store";
 import { TIngredient } from "@config/types";
-
-import styles from "./ingredient-details.module.css";
 import { Fragment } from "react";
+import styles from "./ingredient-details.module.css";
 
 const IngredientDetails = () => {
-  const ingredient: TIngredient | null = useSelector(
-    (store: TRootState) => store.details
+  const ingredient: TIngredient | null = useAppSelector(
+    (store) => store.details
   );
 
   return (

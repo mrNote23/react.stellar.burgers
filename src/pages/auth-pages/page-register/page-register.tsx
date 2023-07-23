@@ -1,5 +1,4 @@
 import { FormEvent, Fragment, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Button,
@@ -9,7 +8,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { useForm } from "@hooks/use-form";
-import { TDispatch, TRootState } from "@store/store";
+import { useAppDispatch, useAppSelector } from "@store/store";
 import { resetError, userRegister } from "@store/reducers/user-reducer";
 import { PATH } from "@config/constants";
 
@@ -19,11 +18,9 @@ const PageRegister = () => {
     email: "",
     password: "",
   });
-  const dispatch = useDispatch<TDispatch>();
+  const dispatch = useAppDispatch();
 
-  const { userLoading, success, error } = useSelector(
-    (store: TRootState) => store.user
-  );
+  const { userLoading, success, error } = useAppSelector((store) => store.user);
 
   const navigate = useNavigate();
 
