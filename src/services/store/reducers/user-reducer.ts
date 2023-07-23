@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Api from "@utils/api";
 import { TUser, TUserLogin, TUserRegister } from "@config/types";
-import { deleteCookie, setCookie } from "@utils/cookie";
+import { deleteCookie, getCookie, setCookie } from "@utils/cookie";
 import {
   ACCESS_COOKIE_OPTIONS,
   ACCESS_TOKEN_NAME,
@@ -49,6 +49,7 @@ const initialState: TUser = {
   error: "",
   authorized: false,
   authProcess: false,
+  accessToken: "",
 };
 
 export const userSlice = createSlice({
@@ -85,7 +86,7 @@ export const userSlice = createSlice({
         );
         setCookie(
           ACCESS_TOKEN_NAME,
-          action.payload.accessToken,
+          action.payload.accessToken as string,
           ACCESS_COOKIE_OPTIONS
         );
         return {
@@ -93,10 +94,11 @@ export const userSlice = createSlice({
           userLoading: false,
           error: "",
           authorized: true,
+          accessToken: action.payload.accessToken as string,
         };
       })
       // Authorize
-      .addCase(userAuthorize.pending, (state) => {
+      .addCase(userAuthorize.pending, () => {
         return { ...initialState, authProcess: true };
       })
       .addCase(userAuthorize.fulfilled, (state, action) => {
@@ -105,9 +107,10 @@ export const userSlice = createSlice({
           ...(action.payload as TUser),
           authorized: true,
           authProcess: false,
+          accessToken: getCookie("accessToken") as string,
         };
       })
-      .addCase(userAuthorize.rejected, (state, action) => {
+      .addCase(userAuthorize.rejected, () => {
         return { ...initialState, authProcess: false };
       })
       // Register
@@ -136,7 +139,7 @@ export const userSlice = createSlice({
         };
       })
       // Update profile
-      .addCase(userUpdate.pending, (state) => {
+      .addCase(userUpdate.pending, () => {
         return {
           ...initialState,
           userLoading: true,
@@ -162,12 +165,12 @@ export const userSlice = createSlice({
         };
       })
       // Logout
-      .addCase(userLogout.rejected, (state, action) => {
+      .addCase(userLogout.rejected, () => {
         deleteCookie(ACCESS_TOKEN_NAME);
         localStorage.removeItem(REFRESH_TOKEN_NAME);
         return { ...initialState, userLoading: false };
       })
-      .addCase(userLogout.fulfilled, (state, action) => {
+      .addCase(userLogout.fulfilled, () => {
         deleteCookie(ACCESS_TOKEN_NAME);
         localStorage.removeItem(REFRESH_TOKEN_NAME);
         return { ...initialState, userLoading: false };

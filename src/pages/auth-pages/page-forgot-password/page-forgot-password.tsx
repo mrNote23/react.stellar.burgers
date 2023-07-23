@@ -19,8 +19,8 @@ import {
 const PageForgotPassword = () => {
   const { authorized } = useSelector((store: TRootState) => store.user);
   const { form, onChange } = useForm({ email: "" });
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const onSubmit = (e: FormEvent) => {

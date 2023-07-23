@@ -12,17 +12,21 @@
 - Drag-and-Drop
 - Оформление заказа
 - Авторизация пользователя
+- Просмотр ленты заказов
+- Просмотр истории заказов пользователя
+- Профиль пользователя
 
 
 ## Стек
 
 - HTML
 - CSS
-- JavaScript
+- TypeScript
 - React
 - React-redux/toolkit
 - React-dnd
 - React-router
+- WebSocket
 
 ## Установка и запуск
 
@@ -35,6 +39,11 @@ cd react.stellar.burgers
 ### Установка зависимостей
 ```bash
 npm install
+```
+
+### Проверка
+```bash
+npm run lint
 ```
 
 ### Запуск
