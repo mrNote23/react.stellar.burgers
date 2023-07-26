@@ -7,6 +7,7 @@
     "build": "craco build",
     "lint": "eslint . --ext .ts,.tsx",
     "test": "craco test",
+    "cypress:open": "npx cypress open",
     "eject": "craco eject"
   },
   "eslintConfig": {
@@ -41,6 +42,7 @@
     "redux-thunk": "^2.4.2"
   },
   "devDependencies": {
+    "@4tw/cypress-drag-drop": "^2.2.4",
     "@craco/craco": "^7.1.0",
     "@craco/types": "^7.1.0",
     "@testing-library/jest-dom": "^5.16.5",
@@ -52,11 +54,18 @@
     "@types/react-dom": "^18.2.4",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
+    "cypress": "^12.17.2",
+    "cypress-drag-drop": "^1.1.1",
     "eslint": "^8.44.0",
-    "jest": "^27.5.1",
+    "eslint-plugin-cypress": "^2.13.3",
+    "fetch-mock": "^9.11.0",
+    "jest": "^28",
     "jest-environment-jsdom": "^29.6.1",
     "prettier": "^3.0.0",
     "react-scripts": "^5.0.1",
+    "react-test-renderer": "^18.2.0",
+    "redux-mock-store": "^1.5.4",
+    "ts-jest": "^28.0.8",
     "typescript": "^4.9.5"
   }
 }

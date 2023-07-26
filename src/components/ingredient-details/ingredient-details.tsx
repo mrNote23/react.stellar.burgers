@@ -5,7 +5,7 @@ import styles from "./ingredient-details.module.css";
 
 const IngredientDetails = () => {
   const ingredient: TIngredient | null = useAppSelector(
-    (store) => store.details
+    (store) => store.ingredientDetails
   );
 
   return (

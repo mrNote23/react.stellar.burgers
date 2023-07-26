@@ -13,4 +13,16 @@ module.exports = {
       "@images": path.resolve(__dirname, "./src/images/"),
     },
   },
+  jest: {
+    configure: {
+      preset: "ts-jest",
+      testMatch: ["<rootDir>/src/**/*.tet.{ts,tsx}"],
+      verbose: true,
+      moduleNameMapper: {
+        "^@store/(.*)$": "<rootDir>/src/services/store/$1",
+        "^@utils/(.*)$": "<rootDir>/src/utils/$1",
+        "^@config/(.*)$": "<rootDir>/src/config/$1",
+      },
+    },
+  },
 };
