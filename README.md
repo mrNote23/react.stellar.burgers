@@ -4,6 +4,10 @@
 
 [Проект на Netlify](https://sws-stellar-burgers.netlify.app/)
 
+[Проект на Яндекс.Облаке](https://burgers.nomoreparties.sbs/)
+
+Доступ на сервер Яндекс.Облака: `ssh andrey@158.160.117.226` SSH ключ команды Практикума добавлен
+
 ## На текущей момент сделано:
 
 - Верстка макета (JSX)
@@ -27,6 +31,8 @@
 - React-dnd
 - React-router
 - WebSocket
+- Jest
+- Cypress
 
 ## Установка и запуск
 
@@ -44,6 +50,8 @@ npm install
 ### Проверка
 ```bash
 npm run lint
+npm run test
+npm run cypress:open
 ```
 
 ### Запуск

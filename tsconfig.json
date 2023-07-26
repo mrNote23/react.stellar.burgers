@@ -19,6 +19,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "types": ["cypress", "@4tw/cypress-drag-drop"],
     "paths":{
       "@config/*": ["./src/config/*"],
       "@components/*": ["./src/components/*"],
@@ -31,6 +32,7 @@
     }
   },
   "include": [
-    "src"
-  ]
+    "src", "cypress"
+  ],
+  "exclude": ["**/*.test.*"]
 }
