@@ -7,7 +7,7 @@ import { Fragment } from "react";
 
 const IngredientDetails = () => {
   const ingredient: TIngredient | null = useSelector(
-    (store: TRootState) => store.details
+    (store: TRootState) => store.ingredientDetails
   );
 
   return (
